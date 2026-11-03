@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog — SMARAGD</title>
+<meta name="description" content="SMARAGD catalog: rings, earrings, necklaces, bracelets and brooches with emeralds, 18k gold and diamonds.">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3d2e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SMARAGD">
+<meta property="og:title" content="Catalog — SMARAGD">
+<meta property="og:description" content="SMARAGD catalog: rings, earrings, necklaces, bracelets and brooches with emeralds, 18k gold and diamonds.">
+<meta property="og:image" content="/icons/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shop.css">
+</head>
+<body data-page="catalog">
+<header id="hdr"></header>
+
+<main class="page" id="catalog">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumbs"><a href="index.html">Main</a><span>/</span><span data-crumb></span></nav>
+    <div class="cat-top g12">
+      <h1 class="pt" data-title>Catalog</h1>
+      <p class="count" data-count></p>
+    </div>
+    <div class="filters g12">
+      <div class="groups" role="group" aria-label="Categories"></div>
+      <div class="tools">
+        <label class="field"><span>Search</span><input id="search" type="search" placeholder="Pear, halo, Colombia…" autocomplete="off"></label>
+        <label class="field"><span>Sort</span>
+          <select id="sort">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="grid-cards g12"></div>
+  </div>
+</main>
+
+<footer id="ftr"></footer>
+<div class="grain" aria-hidden="true"></div>
+<script src="js/shop.js"></script>
+</body>
+</html>

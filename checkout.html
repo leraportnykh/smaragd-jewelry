@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — SMARAGD</title>
+<meta name="description" content="Checkout at SMARAGD: insured delivery, secure payment and a personal advisor for every order.">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3d2e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SMARAGD">
+<meta property="og:title" content="Checkout — SMARAGD">
+<meta property="og:description" content="Checkout at SMARAGD: insured delivery, secure payment and a personal advisor for every order.">
+<meta property="og:image" content="/icons/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shop.css">
+</head>
+<body data-page="checkout">
+<header id="hdr"></header>
+<main class="page">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumbs"><a href="index.html">Main</a><span>/</span><a href="cart.html">Basket</a><span>/</span><span>Checkout</span></nav>
+    <div id="checkout">
+      <h1 class="pt" style="margin-bottom:48px">Checkout</h1>
+      <div class="two g12">
+        <!-- TODO: send to the shop backend; payment happens on the provider's secure page -->
+        <form class="main" action="#" novalidate>
+          <h2 class="h2 sec-title">Contacts</h2>
+          <div class="fields">
+            <label class="field"><span>First name *</span><input name="first" autocomplete="given-name" required></label>
+            <label class="field"><span>Last name *</span><input name="last" autocomplete="family-name" required></label>
+            <label class="field"><span>Email *</span><input name="email" type="email" autocomplete="email" required></label>
+            <label class="field"><span>Mobile *</span><input name="phone" type="tel" autocomplete="tel" placeholder="+380" required></label>
+          </div>
+
+          <h2 class="h2 sec-title">Shipping info</h2>
+          <div class="fields">
+            <!-- countries our insured courier partner delivers to (TODO: check the list with the real carrier) -->
+            <label class="field"><span>Country *</span>
+              <select name="country" autocomplete="country" required>
+                <option value="UA" selected>Ukraine</option>
+                <optgroup label="Europe">
+                  <option value="AT">Austria</option><option value="BE">Belgium</option><option value="BG">Bulgaria</option>
+                  <option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option>
+                  <option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option>
+                  <option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option>
+                  <option value="HU">Hungary</option><option value="IE">Ireland</option><option value="IT">Italy</option>
+                  <option value="LV">Latvia</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+                  <option value="MT">Malta</option><option value="MC">Monaco</option><option value="MD">Moldova</option>
+                  <option value="NL">Netherlands</option><option value="NO">Norway</option><option value="PL">Poland</option>
+                  <option value="PT">Portugal</option><option value="RO">Romania</option><option value="SK">Slovakia</option>
+                  <option value="SI">Slovenia</option><option value="ES">Spain</option><option value="SE">Sweden</option>
+                  <option value="CH">Switzerland</option><option value="GB">United Kingdom</option>
+                </optgroup>
+                <optgroup label="Middle East">
+                  <option value="BH">Bahrain</option><option value="IL">Israel</option><option value="KW">Kuwait</option>
+                  <option value="QA">Qatar</option><option value="SA">Saudi Arabia</option><option value="TR">Türkiye</option>
+                  <option value="AE">United Arab Emirates</option>
+                </optgroup>
+                <optgroup label="Americas">
+                  <option value="BR">Brazil</option><option value="CA">Canada</option><option value="MX">Mexico</option>
+                  <option value="US">United States</option>
+                </optgroup>
+                <optgroup label="Asia &amp; Pacific">
+                  <option value="AU">Australia</option><option value="HK">Hong Kong</option><option value="JP">Japan</option>
+                  <option value="KZ">Kazakhstan</option><option value="NZ">New Zealand</option><option value="SG">Singapore</option>
+                  <option value="KR">South Korea</option>
+                </optgroup>
+              </select>
+            </label>
+            <label class="field"><span>City *</span><input name="city" autocomplete="address-level2" required></label>
+            <label class="field full"><span>Street, house *</span><input name="street" autocomplete="address-line1" required></label>
+            <label class="field"><span>Apartment</span><input name="apt" autocomplete="address-line2"></label>
+            <label class="field"><span>Zip code</span><input name="zip" autocomplete="postal-code"></label>
+            <label class="field full"><span>Comments</span><input name="comment" placeholder="Engraving, a note for the card, a convenient time to call…"></label>
+          </div>
+
+          <h2 class="h2 sec-title">Shipping</h2>
+          <!-- TODO: real delivery options and rates -->
+          <label class="opt"><input type="radio" name="shipping" value="ua" checked><span>Armoured insured courier in Ukraine<small>1–3 working days, handed over against ID</small></span><span>Free</span></label>
+          <label class="opt"><input type="radio" name="shipping" value="world"><span>Worldwide insured delivery<small>5–10 working days, duties paid by the recipient</small></span><span>$150</span></label>
+          <label class="opt"><input type="radio" name="shipping" value="salon"><span>Collect at the salon<small>17 Velyka Zhytomyrska St, Kyiv · by appointment, with a private fitting</small></span><span>Free</span></label>
+
+          <h2 class="h2 sec-title">Payment</h2>
+          <!-- TODO: real payment methods -->
+          <label class="opt"><input type="radio" name="payment" value="card" checked><span>Card, Apple Pay, Google Pay<small>You will be redirected to the secure payment page after confirming the order.</small></span><span></span></label>
+          <label class="opt"><input type="radio" name="payment" value="transfer"><span>Bank transfer<small>Your advisor will send the invoice after confirming the order.</small></span><span></span></label>
+
+          <label class="check" style="margin:28px 0"><input type="checkbox" name="agree" required><span>I agree with the <a class="ulink" href="privacy.html">privacy policy</a> and the <a class="ulink" href="terms.html">terms of service</a>.</span></label>
+          <button class="btn wide" type="submit">Confirm the order</button>
+        </form>
+
+        <aside class="side">
+          <h2 class="h2 sec-title">Your order</h2>
+          <div data-summary></div>
+          <p class="note" style="margin-top:18px">Your personal advisor will call to confirm the order before it is shipped.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</main>
+<footer id="ftr"></footer>
+<div class="grain" aria-hidden="true"></div>
+<script src="js/shop.js"></script>
+</body>
+</html>

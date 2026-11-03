@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About us — SMARAGD</title>
+<meta name="description" content="About SMARAGD: a Kyiv house of fine jewelry since 2014. Hand-chosen Colombian and Zambian emeralds set in 18k gold with diamonds, one piece at a time.">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3d2e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SMARAGD">
+<meta property="og:title" content="About us — SMARAGD">
+<meta property="og:description" content="About SMARAGD: a Kyiv house of fine jewelry since 2014. Hand-chosen Colombian and Zambian emeralds set in 18k gold with diamonds, one piece at a time.">
+<meta property="og:image" content="/icons/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shop.css">
+<style>
+  /* the home page's language: section titles on the middle guide (column 7), photos on the quarter guides */
+  .a-block { margin-bottom: clamp(72px, 8vw, 128px); }
+  .a-head { align-items: end; margin-bottom: clamp(28px, 3vw, 44px); }
+  .a-head > div { grid-column: 7 / span 4; }
+  .a-head .lead { max-width: 380px; margin-top: 14px; }
+  .a-head .ulink { grid-column: 11 / -1; justify-self: end; margin-bottom: .6em; }
+
+  /* numbers: one per quarter (columns 1, 4, 7, 10) under one gold rule */
+  .stats { border-top: 1px solid var(--line); padding-top: 28px; align-items: start; row-gap: 36px; }
+  .stat { grid-column: span 3; }
+  .stat b { display: block; font-family: var(--serif); font-weight: 300; font-size: clamp(48px, 5.2vw, 84px); line-height: 1; margin-bottom: 14px; }
+  .stat p { font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 260px; text-wrap: balance; }
+  .stat:nth-child(3) p { max-width: 340px; }
+  .intro .lead { text-wrap: balance; }
+
+  /* shared photo tiles */
+  .tile { display: block; margin: 0; }
+  .tile .ph { position: relative; overflow: hidden; background: var(--tile); aspect-ratio: 13 / 14; }
+  .tile .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  a.tile:hover .ph img { transform: scale(1.04); }
+  .tile .cap { padding-top: 14px; }
+
+  /* our story — like the home reviews: the big photo on the left half, two tiles beside it */
+  .story { align-items: start; }
+  .story .tile:nth-child(2) { grid-column: 1 / span 6; grid-row: 1; }
+  .story .tile:nth-child(1) { grid-column: 7 / span 3; grid-row: 1; }
+  .story .tile:nth-child(3) { grid-column: 10 / span 3; grid-row: 1; }
+  .story .tile:nth-child(2) .ph { aspect-ratio: 4 / 5; }
+  .story .year { display: block; font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--gold-ink); margin-bottom: 6px; }
+  .story .cap p { font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 380px; }
+
+  /* what we make — four tiles, one per quarter, the caption in one line like the product cards */
+  .make { align-items: start; }
+  .make .tile { grid-column: span 3; }
+  .make .cap { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 10px; }
+  .make .name { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: .02em; }
+  .make .count { flex: none; font-size: 11px; color: rgba(11, 61, 46, .55); }
+
+  /* text-only blocks on the middle guide (column 7) */
+  .words > div { grid-column: 7 / span 5; }
+  .words .h2 { margin-bottom: 22px; }
+  .bespoke > div { grid-column: 7 / span 5; }
+  .bespoke .h3 { margin-bottom: 24px; }
+
+  /* staircase flow for phones (see the script) */
+  [data-fit] .lm { display: none; }
+
+  @media (max-width: 1023px) {
+    .stat:nth-child(n) { grid-column: span 6; }
+    .a-head > div, .words > div, .bespoke > div { grid-column: 1 / span 9; }
+  }
+  /* phones: the first guide and the column-4 guide, like the home page */
+  @media (max-width: 767px) {
+    [data-fit] { font-size: 24px; text-wrap: wrap; }
+    [data-fit] span:not(.lm) { display: none; }
+    [data-fit] .lm { display: block; }
+    .stair-sm[data-fit] span.lm-a { padding-left: 0 !important; }
+    .stair-sm[data-fit] span.lm-b { padding-left: calc(var(--c) * 3 + var(--gut) * 3) !important; text-wrap: pretty; }
+    .a-head > div, .words > div, .bespoke > div { grid-column: 1 / -1; }
+    .a-head .ulink { grid-column: 1 / -1; justify-self: start; }
+    .story, .make { row-gap: 28px; grid-auto-flow: dense; }
+    /* story like the home reviews: the two smaller photos side by side, the big one full width */
+    .story .tile:nth-child(2) { grid-column: 1 / -1; grid-row: 1; }
+    .story .tile:nth-child(1) { grid-column: 1 / span 6; grid-row: 2; }
+    .story .tile:nth-child(3) { grid-column: 7 / span 6; grid-row: 2; }
+    /* what we make: two tiles a row */
+    .make .tile { grid-column: span 6; }
+  }
+</style>
+</head>
+<body data-page="about">
+<header id="hdr"></header>
+<main class="page">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumbs"><a href="index.html">Main</a><span>/</span><span>About us</span></nav>
+    <div class="intro g12">
+      <h1 class="pt">About us</h1>
+      <p class="lead">A Kyiv house of fine jewelry, built around one stone: the emerald.</p>
+    </div>
+
+    <!-- staircase like the home page: lines 1–2 on the column-3 guide, lines 3–5 on the column-5 guide;
+         the script sizes the type so every line runs to the right edge -->
+    <p class="stair-sm a-block" data-fit>
+      <span>Smaragd is a small house of jewelers</span>
+      <span>where every piece begins with a stone</span>
+      <span>chosen by eye, drawn by hand,</span>
+      <span>cast in gold and set with care</span>
+      <span>by the same few pairs of hands.</span>
+      <span class="lm lm-a"></span>
+      <span class="lm lm-b"></span>
+    </p>
+
+    <!-- TODO: concept figures — confirm every number with the client before launch -->
+    <section class="stats g12 a-block" aria-label="SMARAGD in numbers">
+      <div class="stat"><b>2014</b><p>Founded in Kyiv as a workshop of three; today a salon and workshop on Velyka Zhytomyrska Street.</p></div>
+      <div class="stat"><b>12</b><p>Masters under one roof: jewelers, setters, a wax carver and our own gemologist.</p></div>
+      <div class="stat"><b>1,400+</b><p>Emeralds chosen by hand, one at a time. Every stone over one carat comes with an independent GRS or Gübelin report.</p></div>
+      <div class="stat"><b>Lifetime</b><p>Care for every piece: yearly cleaning, setting checks and resizing in the first year, free of charge.</p></div>
+    </section>
+
+    <!-- TODO: concept history — check the dates and facts with the client -->
+    <section class="a-block">
+      <div class="a-head g12">
+        <div>
+          <h2 class="h2">Our story</h2>
+          <p class="lead">Ten years, one stone. How a small Kyiv workshop became a house for emeralds.</p>
+        </div>
+      </div>
+      <div class="story g12">
+        <figure class="tile">
+          <div class="ph"><img src="img/products/eternity-band-light.jpg" decoding="async" alt="Channel eternity band with emeralds and diamonds" loading="lazy"></div>
+          <figcaption class="cap"><span class="year">2014</span><p>Three jewelers open a workshop in Podil. The first piece is an eternity band of square emeralds, still in our collection.</p></figcaption>
+        </figure>
+        <figure class="tile">
+          <div class="ph"><img src="img/products/worn-lariat.jpg" decoding="async" alt="The Emerald Lariat worn with a white jacket" loading="lazy"></div>
+          <figcaption class="cap"><span class="year">2019</span><p>Our gemologist joins and we start buying emeralds directly from cutters in Bogotá and Lusaka, one stone at a time, each with its laboratory report.</p></figcaption>
+        </figure>
+        <figure class="tile">
+          <div class="ph"><img src="img/products/worn-pear-earring.jpg" decoding="async" alt="Fingers holding a pear emerald drop on a diamond huggie earring" loading="lazy"></div>
+          <figcaption class="cap"><span class="year">2024</span><p>The salon on Velyka Zhytomyrska Street opens for private viewings, with the workshop one floor below.</p></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="a-block">
+      <div class="a-head g12">
+        <div>
+          <h2 class="h2">What we make</h2>
+          <p class="lead">Rings, earrings, necklaces and bracelets in 18k gold, each built around an emerald we chose ourselves.</p>
+        </div>
+        <a class="ulink" href="catalog.html">Go to the catalog</a>
+      </div>
+      <div class="make g12">
+        <a class="tile" href="catalog.html?cat=rings">
+          <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" decoding="async" alt="Toi et Moi ring with a pear emerald and a pear diamond" loading="lazy"></div>
+          <div class="cap"><span class="name">Rings</span><span class="count" data-count-pieces="rings"></span></div>
+        </a>
+        <a class="tile" href="catalog.html?cat=earrings">
+          <div class="ph"><img src="img/products/pear-drops-light.jpg" decoding="async" alt="Earrings with a pear emerald and a pear diamond" loading="lazy"></div>
+          <div class="cap"><span class="name">Earrings</span><span class="count" data-count-pieces="earrings"></span></div>
+        </a>
+        <a class="tile" href="catalog.html?cat=necklaces">
+          <div class="ph"><img src="img/products/lariat-light.jpg" decoding="async" alt="Gold lariat necklace with two carré emeralds" loading="lazy"></div>
+          <div class="cap"><span class="name">Necklaces &amp; Pendants</span><span class="count" data-count-pieces="necklaces"></span></div>
+        </a>
+        <a class="tile" href="catalog.html?cat=bracelets">
+          <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
+          <div class="cap"><span class="name">Bracelets</span><span class="count" data-count-pieces="bracelets"></span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="words g12 a-block">
+      <div>
+        <h2 class="h2">The stone comes first</h2>
+        <div class="prose">
+          <p>We buy emeralds one at a time, mostly from Colombia and Zambia, and we look at colour before we look at weight. A stone may wait in our safe for a year until we know what it should become.</p>
+          <p>Every diamond we set is natural and conflict-free. Most of our pieces exist only once; the rest are made in numbered editions of no more than five.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="bespoke g12">
+      <div>
+        <p class="h3">Looking for a stone of your own? We take a few bespoke commissions every season, from the search for the emerald to the final setting.</p>
+        <a class="btn" href="contact.html?topic=bespoke">Request a commission</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer id="ftr"></footer>
+<div class="grain" aria-hidden="true"></div>
+<script src="js/shop.js"></script>
+<script>
+  // staircase: desktop — every line on one row, the type as large as the longest line allows;
+  // phones — one flow, the fourth full-width line ends where the column-4 guide begins
+  (() => {
+    const el = document.querySelector('[data-fit]');
+    const desk = matchMedia('(min-width: 768px)');
+    const lines = [...el.querySelectorAll('span:not(.lm)')];
+    const [a, b] = el.querySelectorAll('.lm');
+    const words = lines.map(s => s.textContent.trim()).join(' ').split(/\s+/);
+    const flow = () => {
+      a.textContent = words[0];
+      const line = a.offsetHeight;
+      let lo = 1, hi = words.length;
+      while (lo < hi) {
+        const mid = (lo + hi + 1) >> 1;
+        a.textContent = words.slice(0, mid).join(' ');
+        if (a.offsetHeight <= line * 4.5) lo = mid; else hi = mid - 1;   // half a line of slack for rounding
+      }
+      a.textContent = words.slice(0, lo).join(' ');
+      b.textContent = words.slice(lo).join(' ');
+    };
+    const fit = () => {
+      el.style.fontSize = '';
+      lines.forEach(s => { s.style.whiteSpace = ''; });
+      if (!desk.matches) { flow(); return; }
+      el.style.fontSize = '100px';
+      const avail = el.clientWidth;
+      let k = Infinity;
+      lines.forEach(s => {
+        s.style.whiteSpace = 'nowrap';
+        const pad = parseFloat(getComputedStyle(s).paddingLeft);
+        const range = document.createRange(); range.selectNodeContents(s);
+        const w = range.getBoundingClientRect().width;
+        if (w > 0) k = Math.min(k, (avail - pad) / w);
+      });
+      if (Number.isFinite(k)) el.style.fontSize = Math.min(100 * k * 0.99, innerHeight * 0.075) + 'px';
+    };
+    fit();
+    addEventListener('resize', fit);
+    if (document.fonts) document.fonts.ready.then(fit);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /favourites.html
+
+Sitemap: https://smaragd.vercel.app/sitemap.xml

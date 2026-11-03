@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- shown by the host for any missing address, at any depth: everything resolves from the site root -->
+<base href="/">
+<title>Page not found — SMARAGD</title>
+<meta name="description" content="This page does not exist. Return to the SMARAGD catalog of emerald jewelry in 18k gold.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0b3d2e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shop.css">
+<style>
+  /* 404: the zero is the emerald ring from the first screen, standing between the two fours */
+  .nf { padding: clamp(48px, 7vw, 100px) 0 clamp(80px, 9vw, 130px); text-align: center; }
+  /* the ring is exactly as tall as the fours and stands on the same line: its height and foot come from the ink of the "4"
+     (measured by the script below, in em, so the three grow together from phone to desktop) */
+  .nf-code {
+    display: flex; justify-content: center; align-items: baseline; gap: .1em;
+    font-family: var(--serif); font-weight: 300; line-height: 1; color: var(--ink);
+    font-size: clamp(150px, 22vw, 320px);
+  }
+  .nf-code img { height: var(--ink-h, .6em); width: auto; position: relative; top: var(--ink-d, .2em); }   /* down by the fours' descent */
+  .nf .h3 { margin: clamp(56px, 6vw, 96px) 0 14px; }
+  .nf .lead { max-width: 380px; margin: 0 auto 32px; }
+  .nf-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
+</style>
+</head>
+<body data-page="notfound">
+<header id="hdr"></header>
+<main class="page">
+  <div class="wrap">
+    <div class="nf">
+      <h1 class="nf-code" aria-label="404"><span>4</span><img src="img/ring-404.png" alt="" width="704" height="1050"><span>4</span></h1>
+      <p class="h3">This page has slipped off</p>
+      <p class="lead">Like a ring left on a basin, it is not where it should be. The pieces you came for are still here.</p>
+      <div class="nf-links">
+        <a class="ulink" href="index.html">Back to the main page</a>
+        <a class="ulink" href="catalog.html">See the catalog</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer id="ftr"></footer>
+<div class="grain" aria-hidden="true"></div>
+<script src="js/shop.js"></script>
+<script>
+  // the ring takes the height of the ink of "4" (top of the figure to its foot) and stands on the same foot
+  (() => {
+    const code = document.querySelector('.nf-code');
+    const fit = () => {
+      const cs = getComputedStyle(code);
+      const ctx = document.createElement('canvas').getContext('2d');
+      ctx.font = `${cs.fontWeight} 100px ${cs.fontFamily}`;
+      const m = ctx.measureText('4');   // Cormorant's "4" is an old-style figure: it hangs below the line
+      if (!m.actualBoundingBoxAscent) return;
+      code.style.setProperty('--ink-h', (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) / 100 + 'em');
+      code.style.setProperty('--ink-d', m.actualBoundingBoxDescent / 100 + 'em');
+    };
+    fit();
+    // measure with the webfont itself, not the fallback, once it has arrived
+    if (document.fonts) {
+      const cs = getComputedStyle(code);
+      document.fonts.load(`${cs.fontWeight} 100px "Cormorant Garamond"`, '4').then(fit, fit);
+    }
+  })();
+</script>
+</body>
+</html>

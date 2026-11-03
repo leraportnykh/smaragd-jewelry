@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMARAGD — Fine Emerald Jewelry in Gold &amp; Diamonds</title>
+<meta name="description" content="SMARAGD — fine jewelry with Colombian and Zambian emeralds, 18k gold and diamonds. One-of-a-kind pieces and private viewings by appointment.">
+<meta property="og:title" content="SMARAGD — Fine Emerald Jewelry in Gold &amp; Diamonds">
+<meta property="og:site_name" content="SMARAGD">
+<meta property="og:description" content="Fine jewelry with Colombian and Zambian emeralds, 18k gold and diamonds. Private viewings in Kyiv.">
+<meta property="og:image" content="/icons/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3d2e">
+<!-- the first screen: both necklace shots are needed immediately -->
+<link rel="preload" as="image" href="img/hero-model.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0b3d2e;
+    --muted: rgba(11, 61, 46, .66);
+    --line: rgba(176, 141, 87, .38);   /* thin gold rule */
+    --gold: #b08d57;                   /* lines, hover, callouts */
+    --gold-ink: #8a6a3b;               /* gold text: prices, numbers (readable on ivory) */
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Inter", system-ui, sans-serif;
+    --ease: cubic-bezier(.19, 1, .22, 1);
+    --reveal: 200px;
+    --gx: -999px;
+    --gy: -999px;
+
+    /* site grid (from the reference): 12 columns, 40px side margins, gutter ≈1.6% of the content */
+    --gut: clamp(10px, 1.04vw, 20px);   /* 20px at 1920, 15px at 1440 */
+    /* one column; % resolves against whatever box uses it */
+    --c: calc((100% - 11 * var(--gut)) / 12);
+  }
+  /* offset to the start of column N: calc(var(--c) * (N-1) + var(--gut) * (N-1)) */
+  .g12 { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; letter-spacing: 0; }
+
+  body {
+    overflow-x: hidden;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    background-color: #f8f6f2;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .stage { position: relative; width: 100%; height: 100svh; }
+
+  /* ---------- fixed backdrop: ivory gradient + ornament ---------- */
+  .backdrop {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 110%, rgba(11, 61, 46, .04), transparent 70%),
+      linear-gradient(180deg, #fbfaf7 0%, #f8f6f2 50%, #f2efe9 100%);
+  }
+  /* two whole sprigs, mirrored, rising from the lower corners: nothing cropped by the screen edge,
+     nothing behind the titles or the text (the parallax moves them only a few px) */
+  .orn {
+    display: none;   /* v2: a clean, airy ground like the reference */
+    position: absolute; inset: 0; z-index: 0;
+    opacity: .3; pointer-events: none;
+    will-change: transform;
+  }
+  .orn img { position: absolute; height: auto; width: min(15vw, 22vh); bottom: 2vh; }
+  .orn .v1 { left: 2vw; }
+  .orn .v2 { right: 2vw; transform: scaleX(-1); }
+
+  /* ---------- nav: same order as the inner pages — links left, logo centre, tools right ---------- */
+  .nav {
+    position: absolute; z-index: 20; top: 0; left: 0; right: 0;
+    padding: 28px 40px 0;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  }
+  .logo { font-family: var(--serif); font-size: clamp(24px, 2.2vw, 34px); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+  .links, .tools { display: flex; gap: 24px; font-size: 12px; text-transform: uppercase; }
+  .tools { justify-self: end; }
+  .links a, .tools a, .burger { opacity: .8; transition: opacity .3s; }
+  .links a:hover, .tools a:hover, .burger:hover { opacity: 1; }
+  .burger { display: none; background: none; border: 0; padding: 0; font: inherit; font-size: 12px; text-transform: uppercase; color: inherit; }
+  /* the menu covers the whole screen under the header bar (z-index -1 inside the nav keeps the bar on top) */
+  .mmenu {
+    position: fixed; inset: 0; z-index: -1; display: flex; flex-direction: column;
+    padding: 104px 20px 28px; background: #f8f6f2; overflow-y: auto;
+    opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility .45s;
+  }
+  .nav.open .mmenu { opacity: 1; visibility: visible; }
+  .mm-links a {
+    display: block; padding: 9px 0; font-family: var(--serif); font-size: 32px; line-height: 1.1; text-transform: uppercase;
+    opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .6s var(--ease);
+  }
+  .nav.open .mm-links a { opacity: 1; transform: none; }
+  .mm-links a:nth-child(2) { transition-delay: .04s; } .mm-links a:nth-child(3) { transition-delay: .08s; }
+  .mm-links a:nth-child(4) { transition-delay: .12s; } .mm-links a:nth-child(5) { transition-delay: .16s; }
+  .mm-links a:nth-child(6) { transition-delay: .2s; }
+  .mm-foot { margin-top: auto; padding-top: 28px; }
+  .mm-cta {
+    display: block; padding: 17px 0; text-align: center; background: var(--ink); color: #f8f6f2;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .mm-contacts { margin: 22px 0 14px; font-size: 15px; line-height: 1.9; }
+  .mm-contacts a { display: block; }
+  .mm-small { font-size: 12px; line-height: 1.7; color: rgba(11, 61, 46, .6); }
+  html.menu-open { overflow: hidden; }   /* the page under the menu does not scroll */
+  .nav-l { display: flex; align-items: center; }
+  .sr-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- v4 first screen: a diptych under a transparent header — the model (columns 1–6), the ring on stone (7–12);
+     the H1 is the wordmark SMARAGD from screen edge to screen edge, its foot cut off by the bottom of the screen;
+     above it a three-line note from the middle + 40px and the catalogue link on the right guide, tops aligned. js fits it all ---------- */
+  .diptych { position: absolute; inset: 0; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .dp-photo { position: relative; margin: 0; overflow: hidden; }
+  .dp-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .dp-model img { object-position: 50% 25%; }
+  .dp-ring img { inset: auto; height: auto; transition: transform 1.2s var(--ease); }   /* size and place: js */
+  .dp-ring:hover img { transform: scale(1.025); }
+  /* the piece's name and price above the ring, on a hairline leader that drops to the halo (js sets left / top);
+     shown on hover / keyboard focus: the line draws down, the words fade in */
+  .dp-tag {
+    position: absolute; z-index: 2; left: 0; top: 0; translate: -50% -100%;
+    display: flex; flex-direction: column; align-items: center;
+    pointer-events: none;
+  }
+  .dp-tag-text {
+    display: flex; gap: 14px; align-items: baseline; white-space: nowrap; padding-bottom: 12px;
+    font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: .08em; color: var(--ink);
+    opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease) .15s, transform .5s var(--ease) .15s;
+  }
+  .dp-tag-price { color: var(--gold-ink); }
+  .dp-tag-line { width: 1px; height: 44px; background: var(--gold); transform: scaleY(0); transform-origin: 50% 100%; transition: transform .6s var(--ease); }
+  .dp-tag-dot { width: 5px; height: 5px; margin-top: -1px; border-radius: 50%; background: var(--gold); opacity: 0; transition: opacity .3s; }
+  .dp-ring:hover .dp-tag-text, .dp-ring:focus-visible .dp-tag-text { opacity: 1; transform: none; }
+  .dp-ring:hover .dp-tag-line, .dp-ring:focus-visible .dp-tag-line { transform: none; }
+  .dp-ring:hover .dp-tag-dot, .dp-ring:focus-visible .dp-tag-dot { opacity: 1; }
+
+  /* the header over the photos: light over her skin, emerald over the stone;
+     no small logo here — the SMARAGD wordmark below is the logo of this screen (kept in the grid so the links stay put) */
+  .stage .links a { color: #f8f6f2; opacity: .92; }
+  .stage .tools a { color: var(--ink); }
+  .stage .logo { visibility: hidden; }
+
+  .dp-word {
+    position: absolute; z-index: 3; left: 0; top: 0; margin: 0;
+    font-family: var(--serif); font-weight: 500; line-height: 1;
+    color: var(--ink); white-space: nowrap; pointer-events: none;
+  }
+  .dp-word > span:first-child { display: inline-block; letter-spacing: -.02em; }   /* on the span: the global reset zeroes it */
+
+  .dp-copy {
+    position: absolute; z-index: 3; right: 40px; bottom: 0;
+    left: calc(50% + 40px);   /* 40px from the middle, as the right side is 40px from the edge */
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;
+  }
+  .dp-text {
+    font-size: 13px; font-weight: 400; line-height: 1.65; color: rgba(11, 61, 46, .82);
+    text-wrap: pretty;
+  }
+  .dp-link {
+    flex: none; margin-top: 3px;   /* cap height of the link = cap height of the note's first line */
+    font-size: 14px; font-weight: 400; text-transform: uppercase; letter-spacing: .08em; line-height: 1;
+    color: var(--ink); padding-bottom: 6px; border-bottom: 1px solid var(--gold);
+    transition: color .3s, border-color .3s;
+  }
+  .dp-link:hover { font-weight: 500; border-color: currentColor; }   /* same colour, a step heavier: the contrast stays */
+
+  /* ---------- second screen: philosophy ---------- */
+  .sec-philosophy {
+    position: relative; z-index: 6;
+    padding: var(--sec-y) 40px;
+  }
+  .philo { max-width: 1440px; margin: 0 auto; }
+  .philo-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(36px, 3.4vw, 52px);   /* = the section titles */
+    line-height: 1.1; text-transform: uppercase; color: var(--ink);
+  }
+  /* staircase on the quarter guides: three lines from column 4, the last two from the middle guide (column 7);
+     every line ends on the right guide (js spreads the small leftover between its words) */
+  .philo-title .ln { display: block; white-space: nowrap; padding-left: var(--o, 0); }
+  .philo-title .ln:nth-child(-n+3) { --o: calc(var(--c) * 3 + var(--gut) * 3); }
+  .philo-title .ln:nth-child(n+4) { --o: calc(var(--c) * 6 + var(--gut) * 6); }
+  .philo-title .ln > span { display: inline-block; }
+
+  .philo-body { margin-top: 44px; align-items: start; }
+  .philo-text { grid-column: 7 / span 4; max-width: 380px; }   /* the middle guide, as the note on the first screen */
+  .philo-text p { font-size: 15px; line-height: 1.5; color: rgba(11, 61, 46, .75); margin-bottom: 26px; }
+  /* reserved spot where the piece lands */
+  .philo-text { grid-row: 1; }
+  .philo-photo { grid-column: 7 / -1; grid-row: 2; margin-top: 36px; aspect-ratio: 4 / 3; }   /* the right half, from the column-7 guide to the edge of the grid */
+  .philo-title .lm { display: none; }
+
+  /* ---------- shared for blocks 3–5 ---------- */
+  /* one rhythm for the whole page: section padding and title → content gap */
+  /* one rhythm: every block pads top and bottom by --sec-y, so the gap between any two blocks is the same (2 × --sec-y) */
+  :root { --sec-y: clamp(60px, 6vw, 92px); --head-gap: clamp(32px, 3.4vw, 52px); }
+  .sec { position: relative; z-index: 6; padding: var(--sec-y) 40px; }
+  .sec-new { padding-top: calc(var(--sec-y) * 2); }   /* the first block after the first screen: the same full gap */
+  .wrap { max-width: 1440px; margin: 0 auto; }
+  .h-sec {
+    font-family: var(--serif); font-weight: 300; font-size: 36px;
+    line-height: 1.1; text-transform: uppercase;
+  }
+  .lead { font-size: 13px; line-height: 1.55; color: rgba(11, 61, 46, .65); }
+  .ulink-sm {
+    display: inline-block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase;
+    padding-bottom: 5px; border-bottom: 1px solid var(--gold); transition: border-color .3s;
+  }
+  .ulink-sm:hover { border-color: var(--ink); }
+  .sec-more { display: none; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1.2s var(--ease), transform 1.2s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- blocks 2 and 3: product tiles on the quarter guides (1 / 4 / 7 / 10) ----------
+     a lifestyle photo over two quarters and two rows (the first screen's split again), small tiles one quarter each */
+  .tiles { align-items: start; row-gap: calc(var(--gut) * 1.6); }
+  .tiles .ph { aspect-ratio: 13 / 14; background: #eeece8; }
+  .tiles .t-big .ph { aspect-ratio: 4 / 5; }
+  /* the big photos zigzag against the first screen: model on the left, then new arrivals right, bestsellers left */
+  .na-grid .t-big { grid-column: 7 / span 6; grid-row: 1 / span 2; }
+  .na-grid .t-s:nth-child(2) { grid-column: 1 / span 3; grid-row: 1; }
+  .na-grid .t-s:nth-child(3) { grid-column: 4 / span 3; grid-row: 1; }
+  .bs-grid .t-s:nth-child(1) { grid-column: 7 / span 3; grid-row: 1; }
+  .bs-grid .t-s:nth-child(2) { grid-column: 10 / span 3; grid-row: 1; }
+  .bs-grid .t-big { grid-column: 1 / span 6; grid-row: 1 / span 2; }
+  /* the row of four under the big photo */
+  .tiles .t-s:nth-child(n+4) { grid-row: 3; grid-column: span 3; }
+
+  /* section heads on the middle guide (column 7), the link on the last one */
+  .bs-head { align-items: end; margin-bottom: var(--head-gap); }
+  .bs-head .h-sec { grid-column: 7 / span 4; font-size: clamp(36px, 3.4vw, 52px); }
+  .bs-head .ulink-sm { grid-column: 11 / -1; justify-self: end; margin-bottom: .6em; }
+  .prod { display: block; }
+  .prod .ph { position: relative; overflow: hidden; background: #eeece8; }
+  .prod .ph img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: transform 1.2s var(--ease);
+  }
+  .prod .ph.contain img { object-fit: contain; padding: 8%; }
+  .prod:not(.has-alt):hover .ph img { transform: scale(1.04); }   /* big photos, reviews and pieces without a macro shot: the slow zoom */
+  /* product tiles with a macro shot cross-fade to it instead (desktop with a mouse; the photo is added by shop.js) */
+  .prod .ph img.alt { opacity: 0; transition: opacity .7s var(--ease); }
+  @media (hover: hover) and (min-width: 768px) {
+    .prod.has-alt:hover .ph img.alt { opacity: 1; }
+  }
+  /* one quiet line under each photo: the name on the left, the price on the right */
+  .prod .cap { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 10px; }
+  .prod .name { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: .02em; color: var(--ink); }
+  .prod .price { flex: none; font-size: 11px; font-weight: 400; color: rgba(11, 61, 46, .55); }
+
+  /* ---------- block 4: categories ---------- */
+  /* header on the middle guide (column 7), as the other section titles */
+  .cat-head { margin-bottom: var(--head-gap); }
+  .cat-head > div { grid-column: 7 / span 4; }
+  .cat-head .h-sec { margin-bottom: 14px; font-size: clamp(36px, 3.4vw, 52px); }
+  .cat-head .lead { max-width: 340px; }
+  .cat-box { position: relative; }
+  .cat-list { list-style: none; position: relative; z-index: 3; } /* words stay above the floating photo */
+  .cat-list li { line-height: 1.15; grid-column: var(--from, 1) / -1; }
+  .cat-list a {
+    display: inline-block;
+    font-family: var(--serif); font-weight: 300; text-transform: uppercase;
+    font-size: clamp(46px, 5.5vw, 88px); line-height: 1.12;   /* "Necklaces & Pendants" fits from column 4 */
+    transition: color .4s, opacity .4s;
+  }
+  .cat-list sup {
+    font-family: var(--sans); font-size: 12px; font-weight: 300;
+    color: var(--gold-ink); vertical-align: top; margin-left: 8px;
+    position: relative; top: .5em;
+  }
+  .cat-list:hover a { opacity: .45; }
+  .cat-list a:hover, .cat-list a:focus-visible, .cat-list a.on { opacity: 1; }
+  /* one guide for every word: column 4 */
+  /* every word on the middle guide (column 7), the long "Necklaces & Pendants" on column 4 in one line */
+  .cat-list li { --from: 7; }
+  .cat-list li.long { --from: 4; }
+  .cat-list li.long a { white-space: nowrap; }
+  /* floating photo: landscape, on the left quarter (columns 1–3), level with the hovered word, kept inside the viewport by JS */
+  .cat-photo {
+    position: absolute; z-index: 1;
+    left: 0; top: var(--py, 0);
+    width: calc(var(--c) * 3 + var(--gut) * 2); aspect-ratio: 4 / 3;
+    background: #eeece8; overflow: hidden; pointer-events: none;
+    opacity: 0;
+    transition: opacity .5s var(--ease), top .7s var(--ease);
+  }
+  .cat-box.show .cat-photo { opacity: 1; }
+  .cat-photo img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transform: scale(1.06);
+    transition: opacity .8s var(--ease), transform 1.2s var(--ease);
+  }
+  .cat-photo img.contain { object-fit: contain; padding: 10%; }
+  .cat-photo img.on { opacity: 1; transform: none; }
+
+  /* ---------- shared section head: title on column 5, optional link flush right (col 10–12) ---------- */
+  .sec-head { align-items: end; margin-bottom: var(--head-gap); }
+  .sec-head > div { grid-column: 7 / span 4; }
+  .sec-head .h-sec { font-size: clamp(36px, 3.4vw, 52px); }
+  .sec-head .lead { max-width: 360px; margin-top: 14px; }
+  .sec-head .ulink-sm { grid-column: 11 / -1; justify-self: end; margin-bottom: .6em; }
+  .media { overflow: hidden; background: #eeece8; }
+  .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .line { border-top: 1px solid var(--line); }
+
+  /* ---------- block 5: the craft ---------- */
+  /* the photo stretches to the steps list: top edge = first line, bottom edge = last line */
+  .craft { align-items: stretch; }
+  .craft-photo { grid-column: 1 / span 3; position: relative; }   /* one card wide (columns 1–3), as tall as the steps */
+  .craft-photo img { position: absolute; inset: 0; }
+  /* the steps fill the right half, columns 7–12 = 6 equal columns, so an inner 6-col grid stays on the site grid */
+  .craft-steps { grid-column: 7 / -1; list-style: none; }
+  .step {
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--gut);
+    align-items: baseline; padding: 26px 0 30px;
+  }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step .num { grid-column: 1; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 26px; color: var(--gold-ink); }
+  .step h3 {
+    grid-column: 2 / span 2;
+    font-family: var(--serif); font-weight: 300; text-transform: uppercase;
+    font-size: clamp(22px, 2vw, 32px); line-height: 1.05;
+  }
+  .step p { grid-column: 4 / -1; font-size: 13px; line-height: 1.55; color: rgba(11, 61, 46, .65); } /* = site column 10 */
+
+
+  /* ---------- block 6: reviews ---------- */
+  /* the new arrivals' top row: the big photo on the left half (columns 1–6), two tiles beside it (7–9, 10–12) */
+  .ins-grid { align-items: start; row-gap: calc(var(--gut) * 1.6); }
+  .ins-grid figure { margin: 0; }
+  .ins-grid .prod:nth-child(2) { grid-column: 7 / span 6; grid-row: 1; }   /* big review on the right, against the craft photo on the left */
+  .ins-grid .prod:nth-child(1) { grid-column: 1 / span 3; grid-row: 1; }
+  .ins-grid .prod:nth-child(3) { grid-column: 4 / span 3; grid-row: 1; }
+  .ins-grid .prod:nth-child(2) .ph { aspect-ratio: 4 / 5; }
+  .ins-grid .prod:nth-child(1) .ph, .ins-grid .prod:nth-child(3) .ph { aspect-ratio: 13 / 14; }
+  .rev .cap { display: block; padding-top: 18px; }   /* reviews keep their stacked quote, not the one-line product caption */
+
+  /* the quote in the reading face (Inter), the name as the accent in Cormorant capitals */
+  .rev blockquote {
+    margin: 0 0 18px; max-width: 420px;
+    font-size: clamp(14px, 1.05vw, 16px); font-weight: 400; line-height: 1.6; color: rgba(11, 61, 46, .82);
+    text-wrap: pretty;
+  }
+  .rev .who {
+    display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(18px, 1.4vw, 22px);
+    line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; color: var(--ink);
+  }
+  .rev .item { display: block; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: rgba(11, 61, 46, .55); margin-top: 6px; }
+
+  /* ---------- site footer (reference: a big call to subscribe, the house + four link columns, a legal row,
+     and the wordmark from edge to edge, cut by the bottom of the page) on the deep emerald plate ---------- */
+  .site-footer {
+    --f-line: rgba(248, 246, 242, .28);
+    --f-muted: rgba(248, 246, 242, .62);
+    position: relative; z-index: 6; overflow: hidden;
+    background: var(--ink); color: #f8f6f2;
+    padding: clamp(64px, 7vw, 112px) 40px 0;
+  }
+  .f-top { align-items: end; }
+  .f-cta {
+    grid-column: 1 / span 8;
+    font-family: var(--serif); font-weight: 300; font-size: clamp(36px, 3.4vw, 52px); line-height: 1.1;   /* = the section titles */
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .f-cta em { font-style: normal; }
+  .f-news { grid-column: 10 / -1; }
+  .news-form { display: flex; align-items: flex-end; gap: 14px; border-bottom: 1px solid var(--f-line); transition: border-color .3s; }
+  .news-form input {
+    flex: 1; min-width: 0; font: inherit; font-size: 13px; color: #f8f6f2;
+    background: transparent; border: 0; padding: 0 0 12px; outline: none;
+  }
+  .news-form input::placeholder { color: var(--f-muted); }
+  .news-form button {
+    font: inherit; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #f8f6f2;
+    background: none; border: 0; padding: 0 0 12px; white-space: nowrap; cursor: pointer;
+  }
+  .news-form:focus-within { border-color: var(--gold); }
+  .f-msg { font-size: 11px; color: var(--f-muted); margin-top: 10px; min-height: 1em; }
+
+  /* quarter guides: the house (with its contacts) on columns 1–3, the link columns on 4, 7 and 10 */
+  .f-mid { margin-top: clamp(64px, 7vw, 112px); align-items: start; }
+  .f-brand { grid-column: 1 / span 3; }
+  .f-logo { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: .05em; line-height: 1; margin-bottom: 16px; }
+  .f-about { max-width: 230px; font-size: 12px; line-height: 1.6; color: var(--f-muted); }
+  /* desktop: the house on column 1, Shop on 4, About on 7, Client care on 10, Social media set flush right to column 12 */
+  .f-brand, .f-shop, .f-house, .f-care, .f-social { grid-row: 1; }
+  .f-shop { grid-column: 4 / span 3; }
+  .f-house { grid-column: 7 / span 3; }
+  .f-care { grid-column: 10 / span 2; }
+  .f-social { grid-column: 10 / -1; justify-self: end; text-align: right; }
+  .f-contact { list-style: none; margin-top: 22px; }
+  .f-contact li { font-size: 13px; line-height: 1.9; }
+  .f-contact a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; transition: text-decoration-color .3s; }
+  .f-contact a:hover { text-decoration-color: var(--gold); }
+  .f-col h4 { font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: .08em; color: var(--f-muted); margin-bottom: 18px; }
+  .f-col ul { list-style: none; }
+  .f-col li { font-size: 13px; line-height: 1.9; }
+  .f-col a, .f-legal a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; transition: text-decoration-color .3s; }
+  .f-col a:hover, .f-legal a:hover { text-decoration-color: var(--gold); }
+
+  .f-bottom {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
+    margin-top: clamp(36px, 3.5vw, 56px); padding-top: 20px; border-top: 1px solid var(--f-line);
+    font-size: 12px; color: var(--f-muted);
+  }
+  .f-legal { display: flex; gap: 28px; }
+
+  /* the wordmark: ink from edge to edge (js), the foot of the letters hidden below the page */
+  .f-mark {
+    margin: clamp(28px, 3vw, 48px) -40px 0;
+    font-family: var(--serif); font-weight: 500; line-height: 1; color: #f8f6f2;
+    white-space: nowrap;
+  }
+  .f-mark span { display: inline-block; letter-spacing: -.02em; }   /* on the span: the global reset zeroes it */
+
+  /* ---------- overlays ---------- */
+  .grain {
+    position: fixed; inset: 0; z-index: 30; pointer-events: none; opacity: .045;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- entrance ---------- */
+  @keyframes rise {
+    from { opacity: 0; translate: 0 28px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .dp-model, .dp-ring, .dp-word { opacity: 0; animation: fade 1.4s ease forwards; }
+  .dp-ring { animation-delay: .25s; }  .dp-word { animation-delay: .45s; }
+  .dp-copy { opacity: 0; animation: rise 1.6s var(--ease) .6s forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .dp-model, .dp-ring, .dp-word, .dp-copy { animation: none; opacity: 1; }
+  }
+  /* ---------- responsive ---------- */
+  @media (max-width: 1023px) {
+    .philo-title { font-size: clamp(26px, 5.6vw, 44px); line-height: 1.1; }
+    .philo-title .ln { white-space: normal; }
+    .philo-title .ln:nth-child(-n+2) { --o: 0; }
+    .philo-title .ln:nth-child(n+3) { --o: calc(var(--c) * 2 + var(--gut) * 2); }
+    .philo-body { display: flex; flex-direction: column; align-items: center; margin-top: 32px; }
+    .philo-text { max-width: 440px; text-align: center; }
+    .philo-photo { width: 100%; max-width: 440px; margin-top: 28px; }
+    /* header like the inner pages: menu button left, logo centre, basket right */
+    .links { display: none; }
+    .burger { display: block; justify-self: start; }
+    .tools a:not(.keep) { display: none; }
+    .stage .burger { color: #f8f6f2; opacity: .92; }   /* the menu button sits over the model */
+
+    /* phones & tablets: the whole necklace under the header, the wordmark across its upper strands,
+       the note and the link at the bottom (js sizes the necklace to the space between them) */
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    /* tablets: Client care and Social media no longer share the last quarter — two rows of link columns */
+    .f-mid { row-gap: 40px; }
+    .f-brand { grid-column: 1 / span 4; grid-row: 1 / span 2; }
+    .f-shop { grid-column: 5 / span 4; grid-row: 1; }
+    .f-house { grid-column: 9 / -1; grid-row: 1; }
+    .f-care { grid-column: 5 / span 4; grid-row: 2; }
+    .f-social { grid-column: 9 / -1; grid-row: 2; justify-self: stretch; text-align: left; }
+    .f-news { grid-column: 8 / -1; }
+  }
+  @media (max-width: 767px) {
+    /* phones: only the model, full screen; the line and the link in light type over her, the wordmark in emerald */
+    .diptych { display: block; }
+    .dp-model { position: absolute; inset: 0; }
+    .dp-ring { display: none; }
+    .dp-copy { left: 20px; right: 20px; flex-direction: column; align-items: flex-start; gap: 18px; }
+    .dp-text { max-width: 300px; color: #f8f6f2; }
+    .dp-word { color: #f8f6f2; }   /* on her skin the emerald goes muddy: light, like the note above and the footer's wordmark */
+    .dp-link { color: #f8f6f2; border-color: rgba(248, 246, 242, .7); }
+    .stage .tools a { color: #f8f6f2; }
+    /* with the menu open the bar sits on ivory: emerald type and the logo back in the centre */
+    .stage .nav.open .burger, .stage .nav.open .tools a { color: var(--ink); opacity: 1; }
+    .stage .nav.open .logo { visibility: visible; color: var(--ink); }
+    :root { --sec-y: 48px; --head-gap: 28px; }
+    .sec { padding: var(--sec-y) 20px; }
+    .sec-new { padding-top: calc(var(--sec-y) * 2); }
+    /* philosophy: one flowing sentence, four full lines from the first guide, the rest from the column-4 guide
+       (the same guide as the 4th bestseller); the note closes the block, left-aligned across the full width */
+    .sec-philosophy { padding-left: 20px; padding-right: 20px; }
+    .philo-title .ln { display: none; }
+    .philo-title .lm { display: block; }
+    .philo-title .lm-b { padding-left: calc(var(--c) * 3 + var(--gut) * 3); }
+    .philo-body { align-items: stretch; }
+    .philo-text { max-width: none; text-align: left; }
+    .philo-photo { max-width: none; }
+    .bs-head .h-sec, .cat-head .h-sec { font-size: 32px; }
+    .bs-head .h-sec { grid-column: 1 / span 7; }
+    .bs-head .ulink-sm { grid-column: 8 / -1; }
+    /* tiles on phones: two per row, the lifestyle photo full width (in the order of the markup) */
+    .tiles { row-gap: 20px; }
+    /* a long price label ("Price on request") folds into two right-aligned lines */
+    .prod .price { flex: 0 1 auto; max-width: 5.6em; text-align: right; line-height: 1.35; }
+    .na-grid .t-s:nth-child(n), .bs-grid .t-s:nth-child(n) { grid-row: auto; grid-column: span 6; }
+    .na-grid .t-big, .bs-grid .t-big { grid-row: auto; grid-column: 1 / -1; }
+    .cat-head > div { grid-column: 1 / -1; }
+    /* phones: bigger words, all on the first guide, no hover photo */
+    .cat-list a { font-size: clamp(34px, 10.5vw, 48px); }
+    .cat-list sup { font-size: 10px; margin-left: 4px; }
+    .cat-list li, .cat-list li:nth-child(1) { --from: 1; }
+    .cat-photo { display: none; }
+    .cat-list li.long { --from: 1; }
+    .cat-list li.long a { white-space: normal; }
+
+    .sec-head > div { grid-column: 1 / span 8; }
+    .sec-head .h-sec { font-size: 32px; }
+    .sec-head > .ulink-sm, .bs-head > .ulink-sm { display: none; }
+    .sec-more { display: table; margin-top: 32px; white-space: nowrap; }
+    .bs-head .h-sec { grid-column: 1 / -1; }
+    .sec-head > div { grid-column: 1 / -1; }
+
+    .craft-photo { grid-column: 1 / -1; aspect-ratio: 4 / 3; margin-bottom: var(--head-gap); }
+    .craft-photo img { position: static; }
+    .craft-steps { grid-column: 1 / -1; }
+    .step { padding: 20px 0 22px; row-gap: 10px; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }   /* the number in a narrow lane, text close beside it */
+    .step .num { grid-column: 1; font-size: 22px; }
+    .step h3 { grid-column: 2; font-size: 26px; }
+    .step p { grid-column: 2; }
+
+    /* phones: the two smaller photos side by side, the big one full width */
+    /* phones: the reviews as a horizontal strip, swiped card by card; the next card peeks in from the right */
+    .ins-grid {
+      display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+      margin: 0 -20px; padding: 0 20px 4px; scroll-padding: 0 20px; scrollbar-width: none;
+    }
+    .ins-grid::-webkit-scrollbar { display: none; }
+    .ins-grid .prod:nth-child(n) { flex: 0 0 90%; scroll-snap-align: start; }   /* the next card only peeks in */
+    .ins-grid .prod:nth-child(2) { order: -1; }
+    .ins-grid .prod:nth-child(n) .ph { aspect-ratio: 4 / 5; }
+
+
+    /* footer: the call and the field full width, the link columns two by two, the legal row stacked */
+    .site-footer { padding: 56px 20px 0; }
+    .f-cta, .f-news, .f-brand { grid-column: 1 / -1; }
+    .f-cta { font-size: 32px; }
+    .f-top { row-gap: 32px; }
+    .f-mid { row-gap: 36px; margin-top: 56px; }
+    .f-shop, .f-care { grid-column: 1 / span 6; }
+    .f-brand, .f-shop, .f-house, .f-care, .f-social { grid-row: auto; }
+    .f-house, .f-social { grid-column: 7 / -1; justify-self: stretch; text-align: left; }
+    .f-bottom { flex-direction: column; align-items: stretch; gap: 10px; }
+    /* Privacy on the first guide, Terms on the column-7 guide (with About and Social media) */
+    .f-legal { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--gut); }
+    .f-mark { margin-left: -20px; margin-right: -20px; }
+  }
+  @media (max-width: 720px) {
+    .nav { padding: 22px 20px 0; }
+    .logo { font-size: 22px; }
+    .sec-philosophy { padding: var(--sec-y) 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="backdrop" aria-hidden="true">
+  <div class="orn">
+    <img class="v1" src="img/orn-vine.svg" alt="">
+    <img class="v2" src="img/orn-vine.svg" alt="">
+  </div>
+</div>
+
+<main>
+<section class="stage">
+
+  <!-- same structure as the inner pages' header (js/shop.js): links left, logo centre, tools right -->
+  <nav class="nav" aria-label="Main">
+    <div class="nav-l">
+      <button class="burger" type="button" aria-expanded="false">Menu</button>
+      <div class="links">
+        <a href="catalog.html">Catalog</a>
+        <a href="about.html">About us</a>
+        <a href="customers.html">To customers</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <a class="logo" href="index.html">SMARAGD</a>
+    <div class="tools">
+      <a href="catalog.html#search">Search</a>
+      <a href="favourites.html">Favourites (<span data-fav-count>0</span>)</a>
+      <a class="keep" href="cart.html">Basket (<span data-cart-count>0</span>)</a>
+    </div>
+    <!-- phones & tablets: a full-screen ivory menu — the pages above, a way to reach a person below -->
+    <div class="mmenu">
+      <div class="mm-links">
+        <a href="catalog.html">Catalog</a>
+        <a href="about.html">About us</a>
+        <a href="customers.html">To customers</a>
+        <a href="contact.html">Contact</a>
+        <a href="favourites.html">Favourites (<span data-fav-count>0</span>)</a>
+        <a href="catalog.html#search">Search</a>
+      </div>
+      <div class="mm-foot">
+        <a class="mm-cta" href="contact.html?topic=viewing">Book a private viewing</a>
+        <div class="mm-contacts">
+          <a href="tel:+380443371852">+380 44 337 18 52</a>
+          <a href="mailto:salon@smaragd.jewelry">salon@smaragd.jewelry</a>
+        </div>
+        <p class="mm-small"><a href="#">Instagram</a> · <a href="#">Telegram</a><br>17 Velyka Zhytomyrska St, Kyiv</p>
+      </div>
+    </div>
+  </nav>
+
+  <div class="diptych">
+    <figure class="dp-photo dp-model">
+      <img src="img/hero-model.jpg" fetchpriority="high" alt="A woman with freckles touching her face, wearing an emerald-cut emerald ring with a diamond halo">
+    </figure>
+    <a class="dp-photo dp-ring" href="product.html?id=halo-ring">
+      <img src="img/hero-ring.jpg" alt="Emerald-Cut Halo Ring in 18k yellow gold on stone">
+      <span class="dp-tag"><span class="dp-tag-text"><span class="dp-tag-name">Emerald Halo Ring</span><span class="dp-tag-price" data-price="halo-ring">$4,800</span></span><span class="dp-tag-line"></span><span class="dp-tag-dot"></span></span>
+    </a>
+    <div class="dp-copy">
+      <p class="dp-text">Smaragd is a Kyiv jewelry house devoted to one stone: rare Colombian emeralds, chosen by eye and set by hand in 18k gold with diamonds, to be worn for a lifetime.</p>
+      <a class="dp-link" href="catalog.html">Explore catalog</a>
+    </div>
+    <h1 class="dp-word"><span aria-hidden="true">SMARAGD</span><span class="sr-title">Smaragd — fine emerald jewelry in 18k gold</span></h1>
+  </div>
+
+</section>
+
+<!-- ===== Block 2: New arrivals — the first-screen necklace flies into the big card ===== -->
+<!-- TODO: which pieces are new is concept data -->
+<section class="sec sec-new" id="new">
+  <div class="wrap">
+    <div class="sec-head g12 reveal">
+      <div>
+        <h2 class="h-sec">New arrivals</h2>
+        <p class="lead">Fresh from the workshop: pieces finished this season, most of them one of a kind.</p>
+      </div>
+      <a class="ulink-sm" href="catalog.html">See the catalog</a>
+    </div>
+    <!-- seven tiles on the quarter guides: a lifestyle photo on the left half (as the first screen's split), two pieces beside it, four below -->
+    <div class="tiles na-grid g12">
+      <a class="prod t-big reveal" href="product.html?id=emerald-station-bracelet">
+        <div class="ph"><img src="img/products/worn-evening-set.jpg" decoding="async" alt="A hand in an emerald velvet dress wearing an emerald-cut emerald ring and a diamond bracelet with emeralds" loading="lazy"></div>
+        <div class="cap"><span class="name">The Evening Set</span><span class="price">Rings &amp; Bracelets</span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=mixed-hoops">
+        <div class="ph"><img src="img/products/mixed-hoops-light.jpg" decoding="async" alt="Gold hoops set with emeralds and diamonds in turn" loading="lazy"></div>
+        <div class="cap"><span class="name">Duet Hoops</span><span class="price" data-price="mixed-hoops"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=pave-cable-cuff">
+        <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
+        <div class="cap"><span class="name">Pavé Cable Cuff</span><span class="price" data-price="pave-cable-cuff"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=pear-huggies">
+        <div class="ph"><img src="img/products/pear-huggies-light.jpg" decoding="async" alt="Diamond huggie earrings with small pear emerald drops" loading="lazy"></div>
+        <div class="cap"><span class="name">Pear Drop Huggies</span><span class="price" data-price="pear-huggies"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=emerald-cut-pendant">
+        <div class="ph"><img src="img/products/emerald-cut-pendant-light.jpg" decoding="async" alt="Pendant with an emerald-cut emerald on a fine gold chain" loading="lazy"></div>
+        <div class="cap"><span class="name">Emerald-Cut Pendant</span><span class="price" data-price="emerald-cut-pendant"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=solitaire-bridal-set">
+        <div class="ph"><img src="img/products/solitaire-bridal-set-light.jpg" decoding="async" alt="Round diamond solitaire stacked with a gold band and a diamond band" loading="lazy"></div>
+        <div class="cap"><span class="name">Solitaire Bridal Set</span><span class="price" data-price="solitaire-bridal-set"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=pear-pendant">
+        <div class="ph"><img src="img/products/pear-pendant-light.jpg" decoding="async" alt="Small pear emerald pendant on a fine gold chain" loading="lazy"></div>
+        <div class="cap"><span class="name">Pear Drop Pendant</span><span class="price" data-price="pear-pendant"></span></div>
+      </a>
+    </div>
+  </div>
+    <!-- phones: the link to the catalogue comes after the pieces, not beside the title -->
+    <a class="ulink-sm sec-more" href="catalog.html">See the catalog</a>
+  </div>
+</section>
+
+<section class="sec-philosophy">
+  <div class="philo">
+    <h2 class="philo-title reveal" data-phone="Smaragd is a Kyiv house for emeralds, each chosen by eye and set by hand in gold.">
+      <span class="ln"><span>Smaragd is a Kyiv house for emeralds,</span></span>
+      <span class="ln"><span>where every emerald is chosen by eye,</span></span>
+      <span class="ln"><span>set by hand in gold with a whisper of</span></span>
+      <span class="ln"><span>diamonds, so that green</span></span>
+      <span class="ln"><span>fire can speak for itself.</span></span>
+      <!-- phones: the same sentence as one flow — four full-width lines, the rest on the column-4 guide (filled by js) -->
+      <span class="lm lm-a"></span>
+      <span class="lm lm-b"></span>
+    </h2>
+    <div class="philo-body g12">
+      <div class="philo-text reveal">
+        <p>We believe a great emerald needs no noise around it. Only gold, a whisper of diamonds and the patience to wait for the right stone, sometimes for a year.</p>
+      </div>
+      <!-- one photo under the text, on the 3rd card's guide -->
+      <div class="philo-photo media reveal"><img src="img/products/stacked-bands-travertine.jpg" decoding="async" alt="Three eternity bands, emerald between two diamond bands, on a travertine block" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 3: Bestsellers ===== -->
+<!-- TODO: prices are concept data (js/shop.js), pieces from $10,000 show "Price on request" -->
+<section class="sec sec-bestsellers" id="bestsellers">
+  <div class="wrap">
+    <div class="bs-head g12 reveal">
+      <h2 class="h-sec">Bestsellers</h2>
+      <a class="ulink-sm" href="catalog.html">Go to the catalog</a>
+    </div>
+
+    <!-- mirrored: two pieces on the left, the lifestyle photo on the right half, four below -->
+    <div class="tiles bs-grid g12">
+      <a class="prod t-s reveal" href="product.html?id=lariat">
+        <div class="ph"><img src="img/products/lariat-light.jpg" decoding="async" alt="Gold lariat necklace with two carré emeralds and a diamond drop" loading="lazy"></div>
+        <div class="cap"><span class="name">Emerald Lariat</span><span class="price" data-price="lariat"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=pear-drops">
+        <div class="ph"><img src="img/products/pear-drops-light.jpg" decoding="async" alt="Earrings with a pear emerald and a pear diamond in yellow gold" loading="lazy"></div>
+        <div class="cap"><span class="name">Pear Toi et Moi Drops</span><span class="price" data-price="pear-drops"></span></div>
+      </a>
+      <a class="prod t-big reveal" href="product.html?id=halo-ring">
+        <div class="ph"><img src="img/products/worn-halo-ring.jpg" decoding="async" alt="A hand resting on the shoulder, wearing the Emerald-Cut Halo Ring" loading="lazy"></div>
+        <div class="cap"><span class="name">Emerald Halo Ring</span><span class="price" data-price="halo-ring"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=solitaire-studs">
+        <div class="ph"><img src="img/products/solitaire-studs-light.jpg" decoding="async" alt="Round emerald studs in four slender claws" loading="lazy"></div>
+        <div class="cap"><span class="name">Emerald Studs</span><span class="price" data-price="solitaire-studs"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=toi-et-moi-ring">
+        <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" decoding="async" alt="Toi et moi ring with a pear emerald and a diamond" loading="lazy"></div>
+        <div class="cap"><span class="name">Toi et Moi Ring</span><span class="price" data-price="toi-et-moi-ring"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=pear-chain-bracelet">
+        <div class="ph"><img src="img/products/pear-chain-bracelet-light.jpg" decoding="async" alt="Fine gold chain bracelet with one small pear emerald" loading="lazy"></div>
+        <div class="cap"><span class="name">Pear Chain Bracelet</span><span class="price" data-price="pear-chain-bracelet"></span></div>
+      </a>
+      <a class="prod t-s reveal" href="product.html?id=bezel-diamond-ring">
+        <div class="ph"><img src="img/products/bezel-diamond-ring-light.jpg" decoding="async" alt="Round diamond in a gold bezel on a band of three gold wires" loading="lazy"></div>
+        <div class="cap"><span class="name">Bezel Ring</span><span class="price" data-price="bezel-diamond-ring"></span></div>
+      </a>
+    </div>
+  </div>
+    <a class="ulink-sm sec-more" href="catalog.html">Go to the catalog</a>
+  </div>
+</section>
+
+<!-- ===== Block 4: Categories ===== -->
+<section class="sec sec-categories" id="categories">
+  <div class="wrap">
+    <div class="cat-head g12 reveal">
+      <div>
+        <h2 class="h-sec">Categories</h2>
+        <p class="lead">Every piece is built around one emerald: chosen first, then given the gold and the diamonds it asks for.</p>
+      </div>
+    </div>
+    <div class="cat-box">
+      <ul class="cat-list g12">
+        <li class="reveal"><a href="catalog.html" data-img="0" class="on">All pieces<sup data-count-cat="">(18)</sup></a></li>
+        <li class="reveal"><a href="catalog.html?cat=rings" data-img="1">Rings<sup data-count-cat="rings">(4)</sup></a></li>
+        <li class="reveal"><a href="catalog.html?cat=earrings" data-img="2">Earrings<sup data-count-cat="earrings">(6)</sup></a></li>
+        <li class="reveal long"><a href="catalog.html?cat=necklaces" data-img="3">Necklaces <em>&amp;</em> Pendants<sup data-count-cat="necklaces">(4)</sup></a></li>
+        <li class="reveal"><a href="catalog.html?cat=bracelets" data-img="4">Bracelets<sup data-count-cat="bracelets">(4)</sup></a></li>
+        <li class="reveal"><a href="catalog.html?cat=brooches" data-img="5">Brooches<sup data-count-cat="brooches">(soon)</sup></a></li>
+      </ul>
+      <div class="cat-photo" aria-hidden="true">
+        <img class="on" src="img/products/diamond-bezel-set-travertine.jpg" decoding="async" alt="" loading="lazy">
+        <img src="img/products/halo-ring-light.jpg" decoding="async" alt="" loading="lazy">
+        <img src="img/products/mixed-hoops-light.jpg" decoding="async" alt="" loading="lazy">
+        <img src="img/products/emerald-cut-pendant-light.jpg" decoding="async" alt="" loading="lazy">
+        <img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="" loading="lazy">
+        <img class="contain" src="img/orn-drop.svg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 5: The Craft ===== -->
+<section class="sec sec-craft" id="atelier">
+  <div class="wrap">
+    <div class="sec-head g12 reveal">
+      <div>
+        <h2 class="h-sec">The Craft</h2>
+        <p class="lead">Four stages, up to a year of searching and one stone at the centre of it all.</p>
+      </div>
+    </div>
+    <div class="craft g12">
+      <div class="craft-photo media reveal"><img src="img/products/worn-pave-cuff.jpg" decoding="async" alt="A hand resting on a knee, wearing the Pavé Cable Cuff" loading="lazy"></div>
+      <ol class="craft-steps">
+        <li class="step line reveal">
+          <span class="num">01</span>
+          <h3>The stone</h3>
+          <p>We choose every emerald by eye from Colombian and Zambian mines, looking for colour first and paperwork second.</p>
+        </li>
+        <li class="step line reveal">
+          <span class="num">02</span>
+          <h3>The drawing</h3>
+          <p>The piece is painted in gouache around the stone, so the gold follows the emerald, never the other way round.</p>
+        </li>
+        <li class="step line reveal">
+          <span class="num">03</span>
+          <h3>Gold 750</h3>
+          <p>The mount is cast in 18k gold, then filed, carved and polished by hand until no trace of the mould is left.</p>
+        </li>
+        <li class="step line reveal">
+          <span class="num">04</span>
+          <h3>Setting</h3>
+          <p>Diamonds are set under the microscope, the emerald last. Each piece leaves with its gemological reports.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Block 6: Reviews ===== -->
+<!-- TODO: concept placeholders, replace with real client reviews (with permission) before launch -->
+<section class="sec sec-reviews" id="reviews">
+  <div class="wrap">
+    <div class="sec-head g12 reveal">
+      <div>
+        <h2 class="h-sec">Kind words</h2>
+        <p class="lead">Our pieces are worn to weddings, to boardrooms and on quiet Sundays. This is what our clients tell us.</p>
+      </div>
+    </div>
+
+    <div class="ins-grid g12">
+      <figure class="prod rev reveal">
+        <div class="ph"><img src="img/products/worn-diamond-nail-cuff.jpg" decoding="async" alt="A wrist in a silk cuff wearing the Diamond Nail Cuff" loading="lazy"></div>
+        <figcaption class="cap">
+          <blockquote>“A present to myself after a hard year. It sits just above the silk cuff of my shirt, and I catch the diamonds every time I reach for my coffee.”</blockquote>
+          <span class="who">Anna K., Kyiv</span>
+          <span class="item">Diamond Nail Cuff</span>
+        </figcaption>
+      </figure>
+      <figure class="prod rev reveal">
+        <div class="ph"><img src="img/products/duet-box-gold.jpg" width="1792" height="2400" decoding="async" alt="A hand holding an open green SMARAGD box with an emerald and diamond band inside" loading="lazy"></div>
+        <figcaption class="cap">
+          <blockquote>“He opened the green box by the window and I forgot what I was going to say. Emeralds and diamonds in turn, like little lights. I still open the box just to look at it.”</blockquote>
+          <span class="who">Olena R., London</span>
+          <span class="item">Duet Band</span>
+        </figcaption>
+      </figure>
+      <figure class="prod rev reveal">
+        <div class="ph"><img src="img/products/worn-pear-ring.jpg" decoding="async" alt="Woman with a hand to her cheek, wearing a pear emerald huggie earring and a pear emerald ring" loading="lazy"></div>
+        <figcaption class="cap">
+          <blockquote>“The private viewing took two hours and nobody rushed me. I came for the earrings and left with the ring too: two pear emeralds of the same green.”</blockquote>
+          <span class="who">Sofia M., Geneva</span>
+          <span class="item">Pear Drop Huggies</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<!-- ===== Footer / Contact ===== -->
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <!-- the call to subscribe in the section-title face, the field on the right guide -->
+    <div class="f-top g12">
+      <h2 class="f-cta">Be the first to see new stones <em>and private viewings.</em></h2>
+      <div class="f-news">
+        <!-- TODO: connect to a mailing service -->
+        <form class="news-form" action="#" novalidate>
+          <label class="sr-title" for="f-email">Email</label>
+          <input id="f-email" type="email" name="email" placeholder="Your email address" required>
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="f-msg" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <!-- the house in a few words, then four link columns -->
+    <div class="f-mid g12">
+      <div class="f-brand">
+        <p class="f-logo">SMARAGD</p>
+        <p class="f-about">A Kyiv house of emerald jewelry. Every stone chosen by eye, every piece set by hand in 18k gold.</p>
+      </div>
+      <nav class="f-col f-shop" aria-label="Shop">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="catalog.html?cat=rings">Rings</a></li>
+          <li><a href="catalog.html?cat=earrings">Earrings</a></li>
+          <li><a href="catalog.html?cat=necklaces">Necklaces &amp; Pendants</a></li>
+          <li><a href="catalog.html?cat=bracelets">Bracelets</a></li>
+          <li><a href="catalog.html">All pieces</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col f-house" aria-label="About">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">Our story</a></li>
+          <li><a href="#atelier">Craftsmanship</a></li>
+          <li><a href="#bestsellers">Bestsellers</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col f-care" aria-label="Client care">
+        <h4>Client care</h4>
+        <ul>
+          <li><a href="customers.html">Shipping &amp; Returns</a></li>
+          <li><a href="customers.html">Ring Size Guide</a></li>
+          <li><a href="customers.html">Jewelry Care</a></li>
+          <li><a href="contact.html?topic=viewing">Private Viewing</a></li>
+        </ul>
+      </nav>
+      <div class="f-col f-social">
+        <h4>Social media</h4>
+        <!-- TODO: real social links and contacts -->
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Pinterest</a></li>
+          <li><a href="tel:+380443371852">+380 44 337 18 52</a></li>
+          <li><a href="mailto:salon@smaragd.jewelry">salon@smaragd.jewelry</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="f-bottom">
+      <p>Est. 2014 · Kyiv</p>
+      <p>© 2026 Smaragd. All rights reserved.</p>
+      <p class="f-legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></p>
+    </div>
+  </div>
+  <!-- the wordmark from edge to edge, its foot cut off by the bottom of the page — as on the first screen -->
+  <div class="f-mark" aria-hidden="true"><span>SMARAGD</span></div>
+</footer>
+
+<div class="grain" aria-hidden="true"></div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const narrow = matchMedia('(max-width: 767px)');
+
+  const nav = document.querySelector('.nav');
+
+  /* ---------- first screen: the wordmark on the guides, the line and the link above it, the two photos around them ---------- */
+  const narrowHero = matchMedia('(max-width: 767px)');
+  const diptych = document.querySelector('.diptych');
+  const word = document.querySelector('.dp-word'), wordSpan = word.firstElementChild;
+  const dpCopy = document.querySelector('.dp-copy');
+  const modelBox = document.querySelector('.dp-model'), modelImg = modelBox.querySelector('img');
+  const ringBox = document.querySelector('.dp-ring'), ringImg = ringBox.querySelector('img'), ringTag = ringBox.querySelector('.dp-tag');
+  // where things sit inside the photos (share of width / height)
+  const MODEL = { ar: 1536 / 2752, ring: 0.55, eyes: 0.215 };       // her ring's lowest point, her eyes
+  const RING = { ar: 1908 / 2160, u: 0.53, v: 0.44 };               // the ring's centre on the stone
+  const inkCtx = document.createElement('canvas').getContext('2d');
+
+  function fitHero() {
+    const W = diptych.clientWidth, H = diptych.clientHeight;
+    if (!W || !H) return;
+    const mg = narrowHero.matches ? 20 : 40;
+    // the wordmark: the ink of the letters (not their box) from screen edge to screen edge; a fifth of the capitals hides below the screen
+    const cs = getComputedStyle(wordSpan);
+    inkCtx.font = `${cs.fontWeight} 100px ${cs.fontFamily}`;
+    if ('letterSpacing' in inkCtx) inkCtx.letterSpacing = '-2px';   // = -.02em at 100px
+    const m = inkCtx.measureText(wordSpan.textContent);
+    const inkL = -m.actualBoundingBoxLeft, ink = m.actualBoundingBoxRight - inkL;
+    if (!(ink > 0)) return;
+    const k = W / ink, cap = m.actualBoundingBoxAscent * k;
+    const fa = m.fontBoundingBoxAscent || 92, fd = m.fontBoundingBoxDescent || 29;
+    const base = H + cap * 0.22;                                       // the letters have no descenders: base = foot, cut off
+    word.style.fontSize = 100 * k + 'px';
+    word.style.left = (-inkL * k) + 'px';
+    word.style.top = (base - ((100 - fa - fd) / 2 + fa) * k) + 'px';   // line-height 1: the baseline sits this far down
+    const capTop = base - cap;
+
+    // the note: exactly three lines — as narrow as three lines of it get (never wider than the room beside the link)
+    const text = dpCopy.querySelector('.dp-text'), link = dpCopy.querySelector('.dp-link');
+    text.style.maxWidth = 'none'; text.style.whiteSpace = 'nowrap';
+    const oneLine = text.scrollWidth;
+    text.style.whiteSpace = '';
+    const room = dpCopy.clientWidth - (narrowHero.matches ? 0 : link.offsetWidth + 32);
+    text.style.maxWidth = Math.min(room, Math.ceil(oneLine / 3) + 28) + 'px';
+    // the note and the link: 40px (phones: 24px) above the capitals
+    dpCopy.style.bottom = (H - capTop + (narrowHero.matches ? 24 : mg)) + 'px';
+    const copyTop = dpCopy.offsetTop;
+
+    // her photo: slide it up just enough that her ring clears the capitals, keeping her eyes in frame
+    const mw = modelBox.clientWidth, mh = modelBox.clientHeight;
+    const h = Math.max(mh, mw / MODEL.ar), crop = h - mh;
+    let off = MODEL.ring * h - (capTop - 30);
+    off = Math.min(off, MODEL.eyes * h - 95);                          // never lose her eyes under the header
+    modelImg.style.objectPosition = `50% ${crop > 0 ? Math.max(0, Math.min(1, off / crop)) * 100 : 50}%`;
+
+    // the ring: centred across its half, and in the free stone between the header and the line above the word
+    if (!narrowHero.matches) {
+      const rw = ringBox.clientWidth, rh = ringBox.clientHeight;
+      const cy = (90 + copyTop) / 2;
+      let w = Math.max(rw, rh * RING.ar), hh = w / RING.ar;
+      hh = Math.max(hh, (rh - cy) / (1 - RING.v), cy / RING.v);         // tall enough to bring the ring to cy
+      w = hh * RING.ar;
+      const left = Math.min(0, Math.max(rw - w, rw / 2 - RING.u * w));
+      const top = Math.min(0, Math.max(rh - hh, cy - RING.v * hh));
+      Object.assign(ringImg.style, { width: w + 'px', left: left + 'px', top: top + 'px' });
+      // the leader's dot sits on the top of the halo (centre of the head: 41% across, its top: 29% down the photo)
+      Object.assign(ringTag.style, { left: (left + 0.41 * w) + 'px', top: (top + 0.29 * hh + 2) + 'px' });
+    }
+  }
+
+  /* ---------- phone / tablet menu ---------- */
+  const burger = nav.querySelector('.burger');
+  const setMenu = open => {
+    nav.classList.toggle('open', open);
+    document.documentElement.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.textContent = open ? 'Close' : 'Menu';
+  };
+  burger.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) setMenu(false); });
+
+  /* ---------- philosophy staircase ---------- */
+  const philoTitle = document.querySelector('.philo-title');
+  const philoLines = [...philoTitle.querySelectorAll('.ln')];
+  const philoFlow = [...philoTitle.querySelectorAll('.lm')];   // phone version of the staircase
+  const wide = matchMedia('(min-width: 1024px)');
+
+  // keep the staircase on one line each: shrink the CSS clamp() size only if a line would overflow
+  // staircase titles: keep every line on one row, shrinking the CSS size only if a line would overflow
+  function fitStair(el) {
+    el.style.fontSize = '';
+    if (!wide.matches) return;
+    const avail = el.clientWidth;
+    // the indent is fixed (grid line), only the text scales: k = (avail - indent) / textWidth
+    const lines = [...el.querySelectorAll('.ln')];
+    lines.forEach(ln => { ln.firstElementChild.style.wordSpacing = ''; });
+    let k = 1;
+    lines.forEach(ln => {
+      const pad = parseFloat(getComputedStyle(ln).paddingLeft);
+      const w = ln.firstElementChild.getBoundingClientRect().width;
+      if (w > 0) k = Math.min(k, (avail - pad) / w);
+    });
+    if (k < 1) {
+      const fs = parseFloat(getComputedStyle(el).fontSize);
+      el.style.fontSize = (fs * k * 0.995) + 'px';
+    }
+    // every line ends on the right guide: the leftover goes into the gaps between its words
+    lines.forEach(ln => {
+      const s = ln.firstElementChild;
+      const pad = parseFloat(getComputedStyle(ln).paddingLeft);
+      const gaps = (s.textContent.trim().match(/\s+/g) || []).length;
+      const rest = avail - pad - s.getBoundingClientRect().width - 1;
+      if (gaps && rest > 0) s.style.wordSpacing = (rest / gaps) + 'px';
+    });
+  }  function fitPhilo() {
+    fitStair(philoTitle);
+    flowPhilo();
+  }
+
+  // phones: break the sentence where the fourth full-width line ends; everything after it continues on the guide
+  const philoWords = philoLines.map(l => l.textContent.trim()).join(' ').split(/\s+/);
+  const asHtml = ws => ws.join(' ').replace('&', '<em>&amp;</em>');
+  function flowPhilo() {
+    if (!narrow.matches) return;
+    const [a, b] = philoFlow;
+    a.innerHTML = asHtml(philoWords.slice(0, 1));
+    const line = a.offsetHeight;                 // height of one line in this font size
+    // phones: one shorter sentence, left-aligned on the first guide, no step
+    void line;
+    const phoneWords = (philoTitle.dataset.phone || '').split(/\s+/).filter(Boolean);
+    if (phoneWords.length) { a.innerHTML = asHtml(phoneWords); b.innerHTML = ''; return; }
+    const lo = philoLines.slice(0, -2).map(l => l.textContent.trim()).join(' ').split(/\s+/).length;
+    a.innerHTML = asHtml(philoWords.slice(0, lo));
+    b.innerHTML = asHtml(philoWords.slice(lo));
+  }
+
+  // footer wordmark: like the first screen — the ink of the letters from edge to edge, a fifth of the capitals cut off
+  const mark = document.querySelector('.f-mark'), markSpan = mark.firstElementChild;
+  function fitMark() {
+    const W = mark.clientWidth;
+    if (!W) return;
+    const cs = getComputedStyle(markSpan);
+    inkCtx.font = `${cs.fontWeight} 100px ${cs.fontFamily}`;
+    if ('letterSpacing' in inkCtx) inkCtx.letterSpacing = '-2px';   // = -.02em at 100px
+    const m = inkCtx.measureText(markSpan.textContent);
+    const inkL = -m.actualBoundingBoxLeft, ink = m.actualBoundingBoxRight - inkL;
+    if (!(ink > 0)) return;
+    const k = W / ink, fa = m.fontBoundingBoxAscent || 92, fd = m.fontBoundingBoxDescent || 29;
+    const baseline = ((100 - fa - fd) / 2 + fa) * k, cap = m.actualBoundingBoxAscent * k;
+    mark.style.fontSize = 100 * k + 'px';
+    markSpan.style.marginLeft = (-inkL * k) + 'px';
+    mark.style.height = (baseline - cap * 0.22) + 'px';   // the box ends a fifth up the capitals, the same cut as the first screen
+  }
+  function layout() { fitHero(); fitPhilo(); fitMark(); }
+  new ResizeObserver(layout).observe(root);
+  addEventListener('resize', layout);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(layout);
+    // late webfont loads change line widths: refit then too
+    document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', layout);
+  }
+  addEventListener('load', layout);
+  layout();
+  /* ---------- blocks 3–5: reveal on enter ---------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduce.matches || !('IntersectionObserver' in window)) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        // small stagger for siblings in the same row / list
+        const i = [...el.parentElement.children].filter(c => c.classList.contains('reveal')).indexOf(el);
+        el.style.transitionDelay = (Math.max(0, i) * 0.08) + 's';
+        el.classList.add('in');
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  /* ---------- categories: swap the overlay photo ---------- */
+  const catBox = document.querySelector('.cat-box');
+  const catList = document.querySelector('.cat-list');
+  const catPhoto = document.querySelector('.cat-photo');
+  const catLinks = [...catList.querySelectorAll('a')];
+  const catImgs = [...catPhoto.querySelectorAll('img')];
+  const phone = matchMedia('(max-width: 767px)');
+
+  // photo sits in columns 10–12 (CSS); vertically it centres on the hovered word,
+  // then gets clamped so it never leaves the viewport
+  let activeCat = null;
+  function placePhoto(a) {
+    if (phone.matches || !a) return;
+    const box = catBox.getBoundingClientRect();
+    const li = a.parentElement;
+    const h = catPhoto.offsetHeight;
+    let y = li.offsetTop + li.offsetHeight / 2 - h / 2;
+    const margin = 24;
+    const top = box.top + y;
+    if (top < margin) y += margin - top;
+    if (top + h > innerHeight - margin) y -= top + h - (innerHeight - margin);
+    catBox.style.setProperty('--py', y + 'px');
+  }
+  // scrolling hides the photo (it must not ride along into the next block);
+  // moving the pointer over a word again brings it back
+  addEventListener('scroll', () => catBox.classList.remove('show'), { passive: true });
+
+  function showCat(a) {
+    activeCat = a;
+    catLinks.forEach(l => l.classList.toggle('on', l === a));
+    catImgs.forEach((img, i) => img.classList.toggle('on', i === +a.dataset.img));
+    if (!catBox.classList.contains('show')) {
+      // first appearance: jump into place, then fade in (no slide from the old spot)
+      catPhoto.style.transition = 'opacity .5s var(--ease)';
+      placePhoto(a);
+      catPhoto.getBoundingClientRect();
+      catPhoto.style.transition = '';
+    } else {
+      placePhoto(a);
+    }
+    catBox.classList.add('show');
+  }
+  catLinks.forEach(a => {
+    a.addEventListener('mouseenter', () => showCat(a));
+    a.addEventListener('focus', () => showCat(a));
+  });
+  catList.addEventListener('mouseleave', () => catBox.classList.remove('show'));
+  catList.addEventListener('mousemove', e => {
+    const a = e.target.closest('a');
+    if (a && !catBox.classList.contains('show')) showCat(a);
+  });
+
+  /* ---------- newsletter (no backend yet): validate and say thanks ---------- */
+  const newsForm = document.querySelector('.news-form');
+  newsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const input = newsForm.querySelector('input');
+    const msg = document.querySelector('.f-msg');
+    if (!input.checkValidity() || !input.value) { input.focus(); msg.textContent = 'Please enter a valid email.'; return; }
+    msg.textContent = 'Thank you. We will write when something rare arrives.';
+    input.value = '';
+  });
+
+})();
+</script>
+<script src="js/shop.js"></script>
+</body>
+</html>

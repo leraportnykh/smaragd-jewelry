@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — SMARAGD</title>
+<meta name="description" content="Contact SMARAGD in Kyiv: book a private viewing, ask about a piece or start a bespoke commission.">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0b3d2e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SMARAGD">
+<meta property="og:title" content="Contact — SMARAGD">
+<meta property="og:description" content="Contact SMARAGD in Kyiv: book a private viewing, ask about a piece or start a bespoke commission.">
+<meta property="og:image" content="/icons/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/shop.css">
+<style>
+  .ct { align-items: start; row-gap: 48px; }
+  .ct-info { grid-column: 1 / span 4; }
+  .ct-info dl { display: grid; gap: 22px; }
+  .ct-info dt { font-size: 11px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .ct-info dd { font-size: 15px; line-height: 1.5; }
+  .ct-form { grid-column: 7 / -1; }
+  .ct-form .btn { margin-top: 28px; }
+  .ct-form .note { margin-top: 12px; }
+  @media (max-width: 767px) { .ct-info, .ct-form { grid-column: 1 / -1; } }
+</style>
+</head>
+<body data-page="contact">
+<header id="hdr"></header>
+<main class="page">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumbs"><a href="index.html">Main</a><span>/</span><span>Contact</span></nav>
+    <div class="intro g12">
+      <h1 class="pt">Contact</h1>
+      <p class="lead">Book a private viewing, ask about a piece or start a bespoke commission. Your advisor replies within one working day.</p>
+    </div>
+    <div class="ct g12">
+      <!-- TODO: fictional address, phone and email — replace with the real ones before launch (they may belong to someone else) -->
+      <div class="ct-info">
+        <dl>
+          <div><dt>Email</dt><dd><a href="mailto:salon@smaragd.jewelry">salon@smaragd.jewelry</a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+380443371852">+380 44 337 18 52</a></dd></div>
+          <div><dt>Salon</dt><dd>17 Velyka Zhytomyrska St, 2nd floor<br>Kyiv 01001, Ukraine<br><a class="ulink" href="https://www.google.com/maps/search/?api=1&amp;query=17+Velyka+Zhytomyrska+St+Kyiv" target="_blank" rel="noopener">Open in Google Maps</a></dd></div>
+          <div><dt>Hours</dt><dd>Tue–Sat, 11:00–19:00<br>Private viewings by appointment</dd></div>
+          <div><dt>Follow</dt><dd><a href="#">Instagram</a> · <a href="#">Pinterest</a> · <a href="#">Telegram</a></dd></div>
+        </dl>
+      </div>
+      <!-- TODO: connect the form to email / CRM -->
+      <form class="ct-form" id="contact-form" action="#" novalidate>
+        <input type="hidden" name="piece">
+        <div class="fields">
+          <label class="field"><span>Name *</span><input name="name" autocomplete="name" required></label>
+          <label class="field"><span>Email *</span><input name="email" type="email" autocomplete="email" required></label>
+          <label class="field"><span>Phone</span><input name="phone" type="tel" autocomplete="tel"></label>
+          <label class="field"><span>Topic</span>
+            <select name="topic" id="topic">
+              <option value="viewing">Private viewing</option>
+              <option value="question">A question about a piece</option>
+              <option value="bespoke">Bespoke commission</option>
+              <option value="order">My order</option>
+              <option value="other">Something else</option>
+            </select>
+          </label>
+          <label class="field full"><span>Message *</span><textarea name="message" required></textarea></label>
+        </div>
+        <button class="btn" type="submit">Send</button>
+        <p class="note" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</main>
+<footer id="ftr"></footer>
+<div class="grain" aria-hidden="true"></div>
+<!-- shop.js preselects the topic (?topic=viewing) and the piece (?piece=id) -->
+<script src="js/shop.js"></script>
+</body>
+</html>
