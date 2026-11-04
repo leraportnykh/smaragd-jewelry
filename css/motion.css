@@ -1,0 +1,111 @@
+/* SMARAGD — motion layer for every page. Light, quick, quiet movement; everything is switched off for reduced motion. */
+:root {
+  --m-out: cubic-bezier(.22, .61, .36, 1);    /* a light ease-out: moves at once, lands softly */
+  --m-soft: cubic-bezier(.45, 0, .25, 1);     /* for cross-fades: no snap at either end */
+}
+
+/* ---------- smooth scroll (Lenis) ---------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---------- 1. first screen: the photos settle in, SMARAGD rises letter by letter.
+   Everything here moves only transform and opacity, which the browser hands to the graphics card ---------- */
+/* (the `scale` property, not `transform`: the ring keeps its own hover zoom on transform) */
+.dp-model img, .dp-ring img { animation: m-settle 1.4s var(--m-out) both; animation-play-state: paused; will-change: scale; }
+.dp-ring img { animation-delay: .08s; }
+@keyframes m-settle { from { scale: 1.04; } to { scale: 1; } }
+.dp-word .m-ch { display: inline-block; letter-spacing: inherit; transform: translateY(45%); opacity: 0; animation: m-rise .8s var(--m-out) forwards; animation-play-state: paused; }
+@keyframes m-rise { to { transform: none; opacity: 1; } }
+/* the first screen starts moving only when its photos are decoded and the curtain lifts (no stutter on the way in) */
+.m-go .dp-model img, .m-go .dp-ring img, .m-go .dp-word .m-ch { animation-play-state: running; }
+
+/* ---------- 3. photos open like a lifted cloth — a whole block at once.
+   The cloth is an ivory layer that slides up (a cheap transform), not a clip of the photo (which repaints it every frame) ---------- */
+.m-img { position: relative; }
+.m-img::after {
+  content: ''; position: absolute; inset: -1px; z-index: 2; pointer-events: none;
+  background: #f8f6f2; transform-origin: 50% 0; transform: scaleY(1);
+  transition: transform .85s var(--m-out);
+}
+.m-img.m-in::after { transform: scaleY(0); }
+.m-img img { transition: transform 1s var(--m-soft), opacity .9s var(--m-soft); }
+/* the block's cards and big photo appear together: no stagger, no extra lift */
+.m-group .reveal { transition-delay: 0s !important; transition-duration: .8s; }
+
+/* hover: the second shot cross-fades in and settles, the first one gently gives way.
+   (selectors as strong as the page's own `.prod .ph img.alt`, which otherwise keeps its quick fade) */
+.prod .ph img, .prod .ph img.alt, .pcard .ph img, .pcard .ph img.alt {
+  transition: scale 1.2s var(--m-out), transform 1.4s var(--m-soft), opacity 1s var(--m-soft);
+}
+@media (hover: hover) and (min-width: 768px) {
+  .prod .ph img.alt, .pcard .ph img.alt { scale: 1.04; }
+  .prod.has-alt:hover .ph img.alt, .pcard.has-alt:hover .ph img.alt { scale: 1; }
+  .prod.has-alt:hover .ph img:not(.alt), .pcard.has-alt:hover .ph img:not(.alt) { opacity: 0; }
+  .prod:not(.has-alt):hover .ph img, .pcard:not(.has-alt):hover .ph img { transform: scale(1.035); }
+}
+
+/* ---------- 4. parallax: the big photos move a little slower than the page ---------- */
+.m-par { position: relative; }
+.m-par img { position: absolute !important; left: 0 !important; right: auto !important; top: -6% !important; bottom: auto !important; width: 100% !important; height: 112% !important; will-change: translate; }   /* 6% spare at each edge, the drift goes up to 5% */
+
+/* ---------- 5. titles rise line by line ---------- */
+.m-mask { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.m-rise { display: block; transform: translateY(100%); transition: transform .85s var(--m-out); }
+.m-in .m-rise, .m-rise.m-in { transform: none; }
+.m-lines .ln { overflow: hidden; padding-bottom: .1em; margin-bottom: -.1em; }
+.m-lines .ln > span { transform: translateY(100%); transition: transform .85s var(--m-out); }
+.m-lines.m-in .ln > span { transform: none; }
+
+/* inner pages: the product photo and the About tiles open like the rest */
+.pp-main.m-img, .tile .ph.m-img { overflow: hidden; }
+
+/* ---------- 6. page transitions: an ivory curtain with the house name ---------- */
+.m-curtain {
+  position: fixed; inset: 0; z-index: 100; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  background: #f8f6f2; transform: translateY(0);
+  transition: transform .75s var(--m-out);
+}
+.m-curtain span {
+  font-family: var(--serif); font-weight: 500; font-size: clamp(28px, 3vw, 44px); letter-spacing: .08em;
+  color: var(--ink); text-transform: uppercase; opacity: 0; transition: opacity .35s;
+}
+.m-curtain.m-show span { opacity: 1; }
+.m-curtain.m-open { transform: translateY(-100%); }
+.m-curtain.m-close { transform: translateY(0); transition-duration: .55s; }
+.m-curtain.m-below { transform: translateY(100%); transition: none; }
+
+/* ---------- 7. cursor (desktop with a mouse): an emerald dot that softly grows over the pieces ---------- */
+.m-cursor { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  html.m-has-cursor, html.m-has-cursor * { cursor: none !important; }
+  html.m-has-cursor input, html.m-has-cursor textarea, html.m-has-cursor select { cursor: auto !important; }
+  .m-cursor {
+    display: flex; align-items: center; justify-content: center;
+    position: fixed; left: 0; top: 0; z-index: 101; pointer-events: none; will-change: transform;
+    width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%;
+    background: var(--ink); color: #f8f6f2;
+    font-size: 0; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    transition: width .35s var(--m-out), height .35s var(--m-out), margin .35s var(--m-out), background-color .3s, opacity .25s;
+  }
+  .m-cursor.is-link { width: 28px; height: 28px; margin: -14px 0 0 -14px; background: rgba(11, 61, 46, .18); }
+  /* over a piece: the dot just grows a little and turns to a soft, see-through emerald haze — no ring, no label */
+  .m-cursor.is-view {
+    width: 26px; height: 26px; margin: -13px 0 0 -13px;
+    background: rgba(11, 61, 46, .16);
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  }
+  .m-cursor { transition: width .6s var(--m-soft), height .6s var(--m-soft), margin .6s var(--m-soft), background-color .6s var(--m-soft), opacity .25s; }
+  .m-cursor.is-dark:not(.is-view) { background: #f8f6f2; }              /* on the emerald footer the dot turns ivory */
+  .m-cursor.is-dark.is-link { background: rgba(248, 246, 242, .25); }
+  .m-cursor.is-hidden { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dp-model img, .dp-ring img, .dp-word .m-ch { animation: none; opacity: 1; transform: none; }
+  .m-img::after { display: none; }
+  .m-par img { translate: none; }
+  .m-rise, .m-lines .ln > span { transform: none !important; transition: none; }
+  .m-curtain { display: none; }
+}

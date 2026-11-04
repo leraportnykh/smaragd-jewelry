@@ -4,4 +4,4 @@ Disallow: /cart.html
 Disallow: /checkout.html
 Disallow: /favourites.html
 
-Sitemap: https://smaragd.vercel.app/sitemap.xml
+Sitemap: https://smaragd-jewelrystore.vercel.app/sitemap.xml

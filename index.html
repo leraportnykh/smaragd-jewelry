@@ -8,18 +8,37 @@
 <meta property="og:title" content="SMARAGD — Fine Emerald Jewelry in Gold &amp; Diamonds">
 <meta property="og:site_name" content="SMARAGD">
 <meta property="og:description" content="Fine jewelry with Colombian and Zambian emeralds, 18k gold and diamonds. Private viewings in Kyiv.">
-<meta property="og:image" content="/icons/og-image.jpg">
+<meta property="og:url" content="https://smaragd-jewelrystore.vercel.app/">
+<link rel="canonical" href="https://smaragd-jewelrystore.vercel.app/">
+<meta property="og:image" content="https://smaragd-jewelrystore.vercel.app/icons/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icons/favicon.ico" sizes="any">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#0b3d2e">
+<!-- who the house is, for search engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JewelryStore",
+  "name": "SMARAGD",
+  "url": "https://smaragd-jewelrystore.vercel.app/",
+  "logo": "https://smaragd-jewelrystore.vercel.app/icons/apple-touch-icon.png",
+  "image": "https://smaragd-jewelrystore.vercel.app/icons/og-image.jpg",
+  "description": "Fine jewelry with Colombian and Zambian emeralds, 18k gold and diamonds. One-of-a-kind pieces and private viewings by appointment.",
+  "telephone": "+380443371852",
+  "email": "salon@smaragd.jewelry",
+  "address": { "@type": "PostalAddress", "addressLocality": "Kyiv", "addressCountry": "UA" }
+}
+</script>
 <!-- the first screen: both necklace shots are needed immediately -->
-<link rel="preload" as="image" href="img/hero-model.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="img/hero-model.jpg" imagesrcset="img/640/hero-model.jpg 640w, img/hero-model.jpg 1800w" imagesizes="(max-width: 767px) 100vw, 50vw" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- the webfonts load without holding up the first paint (the page shows in Georgia/system for an instant, then swaps) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"></noscript>
 <style>
   :root {
     --ink: #0b3d2e;
@@ -559,8 +578,10 @@
     .sec-philosophy { padding: var(--sec-y) 20px; }
   }
 </style>
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body>
+<div class="m-curtain" aria-hidden="true"><span>Smaragd</span></div>
 
 <div class="backdrop" aria-hidden="true">
   <div class="orn">
@@ -612,10 +633,10 @@
 
   <div class="diptych">
     <figure class="dp-photo dp-model">
-      <img src="img/hero-model.jpg" fetchpriority="high" alt="A woman with freckles touching her face, wearing an emerald-cut emerald ring with a diamond halo">
+      <img src="img/hero-model.jpg" srcset="img/640/hero-model.jpg 640w, img/hero-model.jpg 1800w" sizes="(max-width: 767px) 100vw, 50vw" fetchpriority="high" alt="A woman with freckles touching her face, wearing an emerald-cut emerald ring with a diamond halo">
     </figure>
     <a class="dp-photo dp-ring" href="product.html?id=halo-ring">
-      <img src="img/hero-ring.jpg" alt="Emerald-Cut Halo Ring in 18k yellow gold on stone">
+      <img src="img/hero-ring.jpg" srcset="img/640/hero-ring.jpg 640w, img/hero-ring.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" alt="Emerald-Cut Halo Ring in 18k yellow gold on stone">
       <span class="dp-tag"><span class="dp-tag-text"><span class="dp-tag-name">Emerald Halo Ring</span><span class="dp-tag-price" data-price="halo-ring">$4,800</span></span><span class="dp-tag-line"></span><span class="dp-tag-dot"></span></span>
     </a>
     <div class="dp-copy">
@@ -641,31 +662,31 @@
     <!-- seven tiles on the quarter guides: a lifestyle photo on the left half (as the first screen's split), two pieces beside it, four below -->
     <div class="tiles na-grid g12">
       <a class="prod t-big reveal" href="product.html?id=emerald-station-bracelet">
-        <div class="ph"><img src="img/products/worn-evening-set.jpg" decoding="async" alt="A hand in an emerald velvet dress wearing an emerald-cut emerald ring and a diamond bracelet with emeralds" loading="lazy"></div>
+        <div class="ph"><img src="img/products/worn-evening-set.jpg" srcset="img/products/640/worn-evening-set.jpg 640w, img/products/worn-evening-set.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="A hand in an emerald velvet dress wearing an emerald-cut emerald ring and a diamond bracelet with emeralds" loading="lazy"></div>
         <div class="cap"><span class="name">The Evening Set</span><span class="price">Rings &amp; Bracelets</span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=mixed-hoops">
-        <div class="ph"><img src="img/products/mixed-hoops-light.jpg" decoding="async" alt="Gold hoops set with emeralds and diamonds in turn" loading="lazy"></div>
+        <div class="ph"><img src="img/products/mixed-hoops-light.jpg" srcset="img/products/640/mixed-hoops-light.jpg 640w, img/products/mixed-hoops-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Gold hoops set with emeralds and diamonds in turn" loading="lazy"></div>
         <div class="cap"><span class="name">Duet Hoops</span><span class="price" data-price="mixed-hoops"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=pave-cable-cuff">
-        <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
+        <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" srcset="img/products/640/pave-cable-cuff-light.jpg 640w, img/products/pave-cable-cuff-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
         <div class="cap"><span class="name">Pavé Cable Cuff</span><span class="price" data-price="pave-cable-cuff"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=pear-huggies">
-        <div class="ph"><img src="img/products/pear-huggies-light.jpg" decoding="async" alt="Diamond huggie earrings with small pear emerald drops" loading="lazy"></div>
+        <div class="ph"><img src="img/products/pear-huggies-light.jpg" srcset="img/products/640/pear-huggies-light.jpg 640w, img/products/pear-huggies-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Diamond huggie earrings with small pear emerald drops" loading="lazy"></div>
         <div class="cap"><span class="name">Pear Drop Huggies</span><span class="price" data-price="pear-huggies"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=emerald-cut-pendant">
-        <div class="ph"><img src="img/products/emerald-cut-pendant-light.jpg" decoding="async" alt="Pendant with an emerald-cut emerald on a fine gold chain" loading="lazy"></div>
+        <div class="ph"><img src="img/products/emerald-cut-pendant-light.jpg" srcset="img/products/640/emerald-cut-pendant-light.jpg 640w, img/products/emerald-cut-pendant-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Pendant with an emerald-cut emerald on a fine gold chain" loading="lazy"></div>
         <div class="cap"><span class="name">Emerald-Cut Pendant</span><span class="price" data-price="emerald-cut-pendant"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=solitaire-bridal-set">
-        <div class="ph"><img src="img/products/solitaire-bridal-set-light.jpg" decoding="async" alt="Round diamond solitaire stacked with a gold band and a diamond band" loading="lazy"></div>
+        <div class="ph"><img src="img/products/solitaire-bridal-set-light.jpg" srcset="img/products/640/solitaire-bridal-set-light.jpg 640w, img/products/solitaire-bridal-set-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Round diamond solitaire stacked with a gold band and a diamond band" loading="lazy"></div>
         <div class="cap"><span class="name">Solitaire Bridal Set</span><span class="price" data-price="solitaire-bridal-set"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=pear-pendant">
-        <div class="ph"><img src="img/products/pear-pendant-light.jpg" decoding="async" alt="Small pear emerald pendant on a fine gold chain" loading="lazy"></div>
+        <div class="ph"><img src="img/products/pear-pendant-light.jpg" srcset="img/products/640/pear-pendant-light.jpg 640w, img/products/pear-pendant-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Small pear emerald pendant on a fine gold chain" loading="lazy"></div>
         <div class="cap"><span class="name">Pear Drop Pendant</span><span class="price" data-price="pear-pendant"></span></div>
       </a>
     </div>
@@ -692,7 +713,7 @@
         <p>We believe a great emerald needs no noise around it. Only gold, a whisper of diamonds and the patience to wait for the right stone, sometimes for a year.</p>
       </div>
       <!-- one photo under the text, on the 3rd card's guide -->
-      <div class="philo-photo media reveal"><img src="img/products/stacked-bands-travertine.jpg" decoding="async" alt="Three eternity bands, emerald between two diamond bands, on a travertine block" loading="lazy"></div>
+      <div class="philo-photo media reveal"><img src="img/products/stacked-bands-travertine.jpg" srcset="img/products/640/stacked-bands-travertine.jpg 640w, img/products/stacked-bands-travertine.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="Three eternity bands, emerald between two diamond bands, on a travertine block" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -709,31 +730,31 @@
     <!-- mirrored: two pieces on the left, the lifestyle photo on the right half, four below -->
     <div class="tiles bs-grid g12">
       <a class="prod t-s reveal" href="product.html?id=lariat">
-        <div class="ph"><img src="img/products/lariat-light.jpg" decoding="async" alt="Gold lariat necklace with two carré emeralds and a diamond drop" loading="lazy"></div>
+        <div class="ph"><img src="img/products/lariat-light.jpg" srcset="img/products/640/lariat-light.jpg 640w, img/products/lariat-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Gold lariat necklace with two carré emeralds and a diamond drop" loading="lazy"></div>
         <div class="cap"><span class="name">Emerald Lariat</span><span class="price" data-price="lariat"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=pear-drops">
-        <div class="ph"><img src="img/products/pear-drops-light.jpg" decoding="async" alt="Earrings with a pear emerald and a pear diamond in yellow gold" loading="lazy"></div>
+        <div class="ph"><img src="img/products/pear-drops-light.jpg" srcset="img/products/640/pear-drops-light.jpg 640w, img/products/pear-drops-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Earrings with a pear emerald and a pear diamond in yellow gold" loading="lazy"></div>
         <div class="cap"><span class="name">Pear Toi et Moi Drops</span><span class="price" data-price="pear-drops"></span></div>
       </a>
       <a class="prod t-big reveal" href="product.html?id=halo-ring">
-        <div class="ph"><img src="img/products/worn-halo-ring.jpg" decoding="async" alt="A hand resting on the shoulder, wearing the Emerald-Cut Halo Ring" loading="lazy"></div>
+        <div class="ph"><img src="img/products/worn-halo-ring.jpg" srcset="img/products/640/worn-halo-ring.jpg 640w, img/products/worn-halo-ring.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="A hand resting on the shoulder, wearing the Emerald-Cut Halo Ring" loading="lazy"></div>
         <div class="cap"><span class="name">Emerald Halo Ring</span><span class="price" data-price="halo-ring"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=solitaire-studs">
-        <div class="ph"><img src="img/products/solitaire-studs-light.jpg" decoding="async" alt="Round emerald studs in four slender claws" loading="lazy"></div>
+        <div class="ph"><img src="img/products/solitaire-studs-light.jpg" srcset="img/products/640/solitaire-studs-light.jpg 640w, img/products/solitaire-studs-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Round emerald studs in four slender claws" loading="lazy"></div>
         <div class="cap"><span class="name">Emerald Studs</span><span class="price" data-price="solitaire-studs"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=toi-et-moi-ring">
-        <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" decoding="async" alt="Toi et moi ring with a pear emerald and a diamond" loading="lazy"></div>
+        <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" srcset="img/products/640/toi-et-moi-ring-light.jpg 640w, img/products/toi-et-moi-ring-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Toi et moi ring with a pear emerald and a diamond" loading="lazy"></div>
         <div class="cap"><span class="name">Toi et Moi Ring</span><span class="price" data-price="toi-et-moi-ring"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=pear-chain-bracelet">
-        <div class="ph"><img src="img/products/pear-chain-bracelet-light.jpg" decoding="async" alt="Fine gold chain bracelet with one small pear emerald" loading="lazy"></div>
+        <div class="ph"><img src="img/products/pear-chain-bracelet-light.jpg" srcset="img/products/640/pear-chain-bracelet-light.jpg 640w, img/products/pear-chain-bracelet-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Fine gold chain bracelet with one small pear emerald" loading="lazy"></div>
         <div class="cap"><span class="name">Pear Chain Bracelet</span><span class="price" data-price="pear-chain-bracelet"></span></div>
       </a>
       <a class="prod t-s reveal" href="product.html?id=bezel-diamond-ring">
-        <div class="ph"><img src="img/products/bezel-diamond-ring-light.jpg" decoding="async" alt="Round diamond in a gold bezel on a band of three gold wires" loading="lazy"></div>
+        <div class="ph"><img src="img/products/bezel-diamond-ring-light.jpg" srcset="img/products/640/bezel-diamond-ring-light.jpg 640w, img/products/bezel-diamond-ring-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Round diamond in a gold bezel on a band of three gold wires" loading="lazy"></div>
         <div class="cap"><span class="name">Bezel Ring</span><span class="price" data-price="bezel-diamond-ring"></span></div>
       </a>
     </div>
@@ -761,11 +782,11 @@
         <li class="reveal"><a href="catalog.html?cat=brooches" data-img="5">Brooches<sup data-count-cat="brooches">(soon)</sup></a></li>
       </ul>
       <div class="cat-photo" aria-hidden="true">
-        <img class="on" src="img/products/diamond-bezel-set-travertine.jpg" decoding="async" alt="" loading="lazy">
-        <img src="img/products/halo-ring-light.jpg" decoding="async" alt="" loading="lazy">
-        <img src="img/products/mixed-hoops-light.jpg" decoding="async" alt="" loading="lazy">
-        <img src="img/products/emerald-cut-pendant-light.jpg" decoding="async" alt="" loading="lazy">
-        <img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="" loading="lazy">
+        <img class="on" src="img/products/diamond-bezel-set-travertine.jpg" srcset="img/products/640/diamond-bezel-set-travertine.jpg 640w, img/products/diamond-bezel-set-travertine.jpg 1800w" sizes="25vw" decoding="async" alt="" loading="lazy">
+        <img src="img/products/halo-ring-light.jpg" srcset="img/products/640/halo-ring-light.jpg 640w, img/products/halo-ring-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="" loading="lazy">
+        <img src="img/products/mixed-hoops-light.jpg" srcset="img/products/640/mixed-hoops-light.jpg 640w, img/products/mixed-hoops-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="" loading="lazy">
+        <img src="img/products/emerald-cut-pendant-light.jpg" srcset="img/products/640/emerald-cut-pendant-light.jpg 640w, img/products/emerald-cut-pendant-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="" loading="lazy">
+        <img src="img/products/pave-cable-cuff-light.jpg" srcset="img/products/640/pave-cable-cuff-light.jpg 640w, img/products/pave-cable-cuff-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="" loading="lazy">
         <img class="contain" src="img/orn-drop.svg" alt="" loading="lazy">
       </div>
     </div>
@@ -782,7 +803,7 @@
       </div>
     </div>
     <div class="craft g12">
-      <div class="craft-photo media reveal"><img src="img/products/worn-pave-cuff.jpg" decoding="async" alt="A hand resting on a knee, wearing the Pavé Cable Cuff" loading="lazy"></div>
+      <div class="craft-photo media reveal"><img src="img/products/worn-pave-cuff.jpg" srcset="img/products/640/worn-pave-cuff.jpg 640w, img/products/worn-pave-cuff.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="A hand resting on a knee, wearing the Pavé Cable Cuff" loading="lazy"></div>
       <ol class="craft-steps">
         <li class="step line reveal">
           <span class="num">01</span>
@@ -822,7 +843,7 @@
 
     <div class="ins-grid g12">
       <figure class="prod rev reveal">
-        <div class="ph"><img src="img/products/worn-diamond-nail-cuff.jpg" decoding="async" alt="A wrist in a silk cuff wearing the Diamond Nail Cuff" loading="lazy"></div>
+        <div class="ph"><img src="img/products/worn-diamond-nail-cuff.jpg" srcset="img/products/640/worn-diamond-nail-cuff.jpg 640w, img/products/worn-diamond-nail-cuff.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="A wrist in a silk cuff wearing the Diamond Nail Cuff" loading="lazy"></div>
         <figcaption class="cap">
           <blockquote>“A present to myself after a hard year. It sits just above the silk cuff of my shirt, and I catch the diamonds every time I reach for my coffee.”</blockquote>
           <span class="who">Anna K., Kyiv</span>
@@ -830,7 +851,7 @@
         </figcaption>
       </figure>
       <figure class="prod rev reveal">
-        <div class="ph"><img src="img/products/duet-box-gold.jpg" width="1792" height="2400" decoding="async" alt="A hand holding an open green SMARAGD box with an emerald and diamond band inside" loading="lazy"></div>
+        <div class="ph"><img src="img/products/duet-box-gold.jpg" srcset="img/products/640/duet-box-gold.jpg 640w, img/products/duet-box-gold.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" width="1792" height="2400" decoding="async" alt="A hand holding an open green SMARAGD box with an emerald and diamond band inside" loading="lazy"></div>
         <figcaption class="cap">
           <blockquote>“He opened the green box by the window and I forgot what I was going to say. Emeralds and diamonds in turn, like little lights. I still open the box just to look at it.”</blockquote>
           <span class="who">Olena R., London</span>
@@ -838,7 +859,7 @@
         </figcaption>
       </figure>
       <figure class="prod rev reveal">
-        <div class="ph"><img src="img/products/worn-pear-ring.jpg" decoding="async" alt="Woman with a hand to her cheek, wearing a pear emerald huggie earring and a pear emerald ring" loading="lazy"></div>
+        <div class="ph"><img src="img/products/worn-pear-ring.jpg" srcset="img/products/640/worn-pear-ring.jpg 640w, img/products/worn-pear-ring.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="Woman with a hand to her cheek, wearing a pear emerald huggie earring and a pear emerald ring" loading="lazy"></div>
         <figcaption class="cap">
           <blockquote>“The private viewing took two hours and nobody rushed me. I came for the earrings and left with the ring too: two pear emeralds of the same green.”</blockquote>
           <span class="who">Sofia M., Geneva</span>
@@ -1177,5 +1198,7 @@
 })();
 </script>
 <script src="js/shop.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/motion.js"></script>
 </body>
 </html>

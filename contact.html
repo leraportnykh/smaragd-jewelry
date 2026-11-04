@@ -14,11 +14,15 @@
 <meta property="og:site_name" content="SMARAGD">
 <meta property="og:title" content="Contact — SMARAGD">
 <meta property="og:description" content="Contact SMARAGD in Kyiv: book a private viewing, ask about a piece or start a bespoke commission.">
-<meta property="og:image" content="/icons/og-image.jpg">
+<meta property="og:url" content="https://smaragd-jewelrystore.vercel.app/contact.html">
+<link rel="canonical" href="https://smaragd-jewelrystore.vercel.app/contact.html">
+<meta property="og:image" content="https://smaragd-jewelrystore.vercel.app/icons/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- the webfonts load without holding up the first paint (the page shows in Georgia/system for an instant, then swaps) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"></noscript>
 <link rel="stylesheet" href="css/shop.css">
 <style>
   .ct { align-items: start; row-gap: 48px; }
@@ -31,8 +35,10 @@
   .ct-form .note { margin-top: 12px; }
   @media (max-width: 767px) { .ct-info, .ct-form { grid-column: 1 / -1; } }
 </style>
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body data-page="contact">
+<div class="m-curtain" aria-hidden="true"><span>Smaragd</span></div>
 <header id="hdr"></header>
 <main class="page">
   <div class="wrap">
@@ -80,5 +86,7 @@
 <div class="grain" aria-hidden="true"></div>
 <!-- shop.js preselects the topic (?topic=viewing) and the piece (?piece=id) -->
 <script src="js/shop.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/motion.js"></script>
 </body>
 </html>

@@ -14,11 +14,15 @@
 <meta property="og:site_name" content="SMARAGD">
 <meta property="og:title" content="About us — SMARAGD">
 <meta property="og:description" content="About SMARAGD: a Kyiv house of fine jewelry since 2014. Hand-chosen Colombian and Zambian emeralds set in 18k gold with diamonds, one piece at a time.">
-<meta property="og:image" content="/icons/og-image.jpg">
+<meta property="og:url" content="https://smaragd-jewelrystore.vercel.app/about.html">
+<link rel="canonical" href="https://smaragd-jewelrystore.vercel.app/about.html">
+<meta property="og:image" content="https://smaragd-jewelrystore.vercel.app/icons/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- the webfonts load without holding up the first paint (the page shows in Georgia/system for an instant, then swaps) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"></noscript>
 <link rel="stylesheet" href="css/shop.css">
 <style>
   /* the home page's language: section titles on the middle guide (column 7), photos on the quarter guides */
@@ -90,8 +94,10 @@
     .make .tile { grid-column: span 6; }
   }
 </style>
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body data-page="about">
+<div class="m-curtain" aria-hidden="true"><span>Smaragd</span></div>
 <header id="hdr"></header>
 <main class="page">
   <div class="wrap">
@@ -131,15 +137,15 @@
       </div>
       <div class="story g12">
         <figure class="tile">
-          <div class="ph"><img src="img/products/eternity-band-light.jpg" decoding="async" alt="Channel eternity band with emeralds and diamonds" loading="lazy"></div>
+          <div class="ph"><img src="img/products/eternity-band-light.jpg" srcset="img/products/640/eternity-band-light.jpg 640w, img/products/eternity-band-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Channel eternity band with emeralds and diamonds" loading="lazy"></div>
           <figcaption class="cap"><span class="year">2014</span><p>Three jewelers open a workshop in Podil. The first piece is an eternity band of square emeralds, still in our collection.</p></figcaption>
         </figure>
         <figure class="tile">
-          <div class="ph"><img src="img/products/worn-lariat.jpg" decoding="async" alt="The Emerald Lariat worn with a white jacket" loading="lazy"></div>
+          <div class="ph"><img src="img/products/worn-lariat.jpg" srcset="img/products/640/worn-lariat.jpg 640w, img/products/worn-lariat.jpg 1800w" sizes="(max-width: 767px) 92vw, 50vw" decoding="async" alt="The Emerald Lariat worn with a white jacket" loading="lazy"></div>
           <figcaption class="cap"><span class="year">2019</span><p>Our gemologist joins and we start buying emeralds directly from cutters in Bogotá and Lusaka, one stone at a time, each with its laboratory report.</p></figcaption>
         </figure>
         <figure class="tile">
-          <div class="ph"><img src="img/products/worn-pear-earring.jpg" decoding="async" alt="Fingers holding a pear emerald drop on a diamond huggie earring" loading="lazy"></div>
+          <div class="ph"><img src="img/products/worn-pear-earring.jpg" srcset="img/products/640/worn-pear-earring.jpg 640w, img/products/worn-pear-earring.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Fingers holding a pear emerald drop on a diamond huggie earring" loading="lazy"></div>
           <figcaption class="cap"><span class="year">2024</span><p>The salon on Velyka Zhytomyrska Street opens for private viewings, with the workshop one floor below.</p></figcaption>
         </figure>
       </div>
@@ -155,19 +161,19 @@
       </div>
       <div class="make g12">
         <a class="tile" href="catalog.html?cat=rings">
-          <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" decoding="async" alt="Toi et Moi ring with a pear emerald and a pear diamond" loading="lazy"></div>
+          <div class="ph"><img src="img/products/toi-et-moi-ring-light.jpg" srcset="img/products/640/toi-et-moi-ring-light.jpg 640w, img/products/toi-et-moi-ring-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Toi et Moi ring with a pear emerald and a pear diamond" loading="lazy"></div>
           <div class="cap"><span class="name">Rings</span><span class="count" data-count-pieces="rings"></span></div>
         </a>
         <a class="tile" href="catalog.html?cat=earrings">
-          <div class="ph"><img src="img/products/pear-drops-light.jpg" decoding="async" alt="Earrings with a pear emerald and a pear diamond" loading="lazy"></div>
+          <div class="ph"><img src="img/products/pear-drops-light.jpg" srcset="img/products/640/pear-drops-light.jpg 640w, img/products/pear-drops-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Earrings with a pear emerald and a pear diamond" loading="lazy"></div>
           <div class="cap"><span class="name">Earrings</span><span class="count" data-count-pieces="earrings"></span></div>
         </a>
         <a class="tile" href="catalog.html?cat=necklaces">
-          <div class="ph"><img src="img/products/lariat-light.jpg" decoding="async" alt="Gold lariat necklace with two carré emeralds" loading="lazy"></div>
+          <div class="ph"><img src="img/products/lariat-light.jpg" srcset="img/products/640/lariat-light.jpg 640w, img/products/lariat-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Gold lariat necklace with two carré emeralds" loading="lazy"></div>
           <div class="cap"><span class="name">Necklaces &amp; Pendants</span><span class="count" data-count-pieces="necklaces"></span></div>
         </a>
         <a class="tile" href="catalog.html?cat=bracelets">
-          <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
+          <div class="ph"><img src="img/products/pave-cable-cuff-light.jpg" srcset="img/products/640/pave-cable-cuff-light.jpg 640w, img/products/pave-cable-cuff-light.jpg 1800w" sizes="(max-width: 767px) 45vw, 25vw" decoding="async" alt="Open gold cable cuff ending in two spheres of pavé diamonds" loading="lazy"></div>
           <div class="cap"><span class="name">Bracelets</span><span class="count" data-count-pieces="bracelets"></span></div>
         </a>
       </div>
@@ -194,6 +200,8 @@
 <footer id="ftr"></footer>
 <div class="grain" aria-hidden="true"></div>
 <script src="js/shop.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/motion.js"></script>
 <script>
   // staircase: desktop — every line on one row, the type as large as the longest line allows;
   // phones — one flow, the fourth full-width line ends where the column-4 guide begins

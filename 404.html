@@ -14,7 +14,9 @@
 <meta name="theme-color" content="#0b3d2e">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- the webfonts load without holding up the first paint (the page shows in Georgia/system for an instant, then swaps) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"></noscript>
 <link rel="stylesheet" href="css/shop.css">
 <style>
   /* 404: the zero is the emerald ring from the first screen, standing between the two fours */
@@ -31,8 +33,10 @@
   .nf .lead { max-width: 380px; margin: 0 auto 32px; }
   .nf-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
 </style>
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body data-page="notfound">
+<div class="m-curtain" aria-hidden="true"><span>Smaragd</span></div>
 <header id="hdr"></header>
 <main class="page">
   <div class="wrap">
@@ -50,6 +54,8 @@
 <footer id="ftr"></footer>
 <div class="grain" aria-hidden="true"></div>
 <script src="js/shop.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/motion.js"></script>
 <script>
   // the ring takes the height of the ink of "4" (top of the figure to its foot) and stands on the same foot
   (() => {
@@ -68,6 +74,7 @@
     if (document.fonts) {
       const cs = getComputedStyle(code);
       document.fonts.load(`${cs.fontWeight} 100px "Cormorant Garamond"`, '4').then(fit, fit);
+      document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', fit);
     }
   })();
 </script>

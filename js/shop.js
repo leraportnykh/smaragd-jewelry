@@ -210,9 +210,10 @@
   /* ---------- shared pieces ---------- */
   // cut-outs on a transparent backdrop are shown whole instead of cropped to fill the tile
   const fit = p => (p.contain ? ' class="contain"' : '');
-  // product photos are used exactly as delivered (already sized and compressed): one file, no smaller copies
-  const small = src => src;
-  const pic = src => `src="${src}"`;
+  // the photos as delivered serve large screens; phones and small thumbnails get a 640px copy (img/products/640/)
+  const small = src => src.replace(/([^/]+\.jpg)$/, '640/$1');
+  const srcset = src => (small(src) === src ? '' : `${small(src)} 640w, ${src} 1800w`);
+  const pic = (src, sizes) => `src="${src}" srcset="${srcset(src)}" sizes="${sizes}"`;
   const CARD_SIZES = '(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw';
   const leftLabel = p => (!stock(p) ? 'sold' : stock(p) === 1 ? 'one left' : `${stock(p)} left`);
   // the same count on the product page, in the house's words
@@ -389,7 +390,8 @@
     };
     fit();
     addEventListener('resize', fit);
-    if (document.fonts) document.fonts.ready.then(fit);
+    // the webfont arrives after the first paint: refit the wordmark when it lands
+    if (document.fonts) { document.fonts.ready.then(fit); document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', fit); }
   }
   /* ---------- pages ---------- */
   const qs = new URLSearchParams(location.search);
@@ -554,6 +556,7 @@
       const t = e.target.closest('button');
       if (!t) return;
       if (t.dataset.img) {
+        main.srcset = srcset(t.dataset.img);
         main.src = t.dataset.img;
         root.querySelectorAll('.pp-thumbs button').forEach(b => b.setAttribute('aria-pressed', b === t));
       } else if (t.dataset.size) {
